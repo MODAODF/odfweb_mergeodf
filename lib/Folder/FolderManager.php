@@ -40,7 +40,7 @@ class FolderManager {
 	private IGroupManager $groupManager;
 	private IMimeTypeLoader $mimeTypeLoader;
 
-	public function __construct(IDBConnection $connection, IGroupManager $groupManager = null, IMimeTypeLoader $mimeTypeLoader = null) {
+	public function __construct(IDBConnection $connection, IGroupManager $groupManager = null, IMimeTypeLoader $mimeTypeLoader = null, string $AppName="aaa") {
 		$this->connection = $connection;
 
 		// files_fulltextsearch compatibility
@@ -66,7 +66,7 @@ class FolderManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('folder_id', 'mount_point', 'quota', 'acl')
-			->from('template_repo', 'f');
+			->from('merge_odf', 'f');
 
 		$rows = $query->executeQuery()->fetchAll();
 
@@ -121,7 +121,7 @@ class FolderManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('folder_id', 'mount_point', 'quota', 'size', 'acl', 'api_server')
-			->from('template_repo', 'f');
+			->from('merge_odf', 'f');
 		$this->joinQueryWithFileCache($query, $rootStorageId);
 
 		$rows = $query->executeQuery()->fetchAll();
@@ -157,7 +157,7 @@ class FolderManager {
 	private function getAllFolderMappings(): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('template_repo_manage');
+			->from('merge_odf_manage');
 		$rows = $query->executeQuery()->fetchAll();
 
 		$folderMap = [];
@@ -183,7 +183,7 @@ class FolderManager {
 	private function getFolderMappings(int $id): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('template_repo_manage')
+			->from('merge_odf_manage')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		return $query->executeQuery()->fetchAll();
@@ -229,7 +229,7 @@ class FolderManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('folder_id', 'mount_point', 'quota', 'size', 'acl')
-			->from('template_repo', 'f')
+			->from('merge_odf', 'f')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$this->joinQueryWithFileCache($query, $rootStorageId);
 
@@ -258,7 +258,7 @@ class FolderManager {
 	public function getFolderAclEnabled(int $id): bool {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('acl')
-			->from('template_repo', 'f')
+			->from('merge_odf', 'f')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->executeQuery();
 		$row = $result->fetch();
@@ -285,7 +285,7 @@ class FolderManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('folder_id', 'group_id', 'permissions')
-			->from('template_repo_groups');
+			->from('merge_odf_groups');
 
 		$rows = $query->executeQuery()->fetchAll();
 
@@ -305,7 +305,7 @@ class FolderManager {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('folder_id', 'user_id', 'permissions')
-			->from('template_repo_users');
+			->from('merge_odf_users');
 
 		$rows = $query->execute()->fetchAll();
 
@@ -360,7 +360,7 @@ class FolderManager {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('template_repo_manage')
+			->from('merge_odf_manage')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('mapping_type', $query->createNamedParameter('user')))
 			->andWhere($query->expr()->eq('mapping_id', $query->createNamedParameter($userId)));
@@ -370,7 +370,7 @@ class FolderManager {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
-			->from('template_repo_manage')
+			->from('merge_odf_manage')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId)))
 			->andWhere($query->expr()->eq('mapping_type', $query->createNamedParameter('group')));
 		$groups = $query->executeQuery()->fetchAll();
@@ -433,10 +433,10 @@ class FolderManager {
 		)
 			->selectAlias('a.permissions', 'user_permissions')
 			->selectAlias('c.permissions', 'permissions')
-			->from('template_repo', 'f')
+			->from('merge_odf', 'f')
 			->innerJoin(
 				'f',
-				'template_repo_users',
+				'merge_odf_users',
 				'a',
 				$query->expr()->eq('f.folder_id', 'a.folder_id')
 			)
@@ -485,10 +485,10 @@ class FolderManager {
 		)
 			->selectAlias('a.permissions', 'group_permissions')
 			->selectAlias('c.permissions', 'permissions')
-			->from('template_repo', 'f')
+			->from('merge_odf', 'f')
 			->innerJoin(
 				'f',
-				'template_repo_groups',
+				'merge_odf_groups',
 				'a',
 				$query->expr()->eq('f.folder_id', 'a.folder_id')
 			)
@@ -537,10 +537,10 @@ class FolderManager {
 		)
 			->selectAlias('a.permissions', 'group_permissions')
 			->selectAlias('c.permissions', 'permissions')
-			->from('template_repo', 'f')
+			->from('merge_odf', 'f')
 			->innerJoin(
 				'f',
-				'template_repo_groups',
+				'merge_odf_groups',
 				'a',
 				$query->expr()->eq('f.folder_id', 'a.folder_id')
 			)
@@ -572,7 +572,7 @@ class FolderManager {
 	public function createFolder(string $mountPoint): int {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->insert('template_repo')
+		$query->insert('merge_odf')
 			->values([
 				'mount_point' => $query->createNamedParameter($mountPoint)
 			]);
@@ -587,7 +587,7 @@ class FolderManager {
 	public function setMountPoint(int $folderId, string $mountPoint): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo')
+		$query->update('merge_odf')
 			->set('mount_point', $query->createNamedParameter($mountPoint))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
@@ -599,7 +599,7 @@ class FolderManager {
 	public function addApplicableGroup(int $folderId, string $groupId): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->insert('template_repo_groups')
+		$query->insert('merge_odf_groups')
 			->values([
 				'folder_id' => $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT),
 				'group_id' => $query->createNamedParameter($groupId),
@@ -614,7 +614,7 @@ class FolderManager {
 	public function removeApplicableGroup(int $folderId, string $groupId): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('template_repo_groups')
+		$query->delete('merge_odf_groups')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('group_id', $query->createNamedParameter($groupId)));
 		$query->executeStatement();
@@ -623,7 +623,7 @@ class FolderManager {
 	public function addApplicableUser($folderId, $userId) {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->insert('template_repo_users')
+		$query->insert('merge_odf_users')
 			->values([
 				'folder_id' => $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT),
 				'user_id' => $query->createNamedParameter($userId),
@@ -635,7 +635,7 @@ class FolderManager {
 	public function removeApplicableUser($folderId, $userId) {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('template_repo_users')
+		$query->delete('merge_odf_users')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
 		$query->execute();
@@ -647,7 +647,7 @@ class FolderManager {
 	public function setGroupPermissions(int $folderId, string $groupId, int $permissions): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo_groups')
+		$query->update('merge_odf_groups')
 			->set('permissions', $query->createNamedParameter($permissions, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('group_id', $query->createNamedParameter($groupId)));
@@ -658,7 +658,7 @@ class FolderManager {
 	public function setUserPermissions($folderId, $userId, $permissions) {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo_users')
+		$query->update('merge_odf_users')
 			->set('permissions', $query->createNamedParameter($permissions, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('user_id', $query->createNamedParameter($userId)));
@@ -672,14 +672,14 @@ class FolderManager {
 	public function setManageACL(int $folderId, string $type, string $id, bool $manageAcl): void {
 		$query = $this->connection->getQueryBuilder();
 		if ($manageAcl === true) {
-			$query->insert('template_repo_manage')
+			$query->insert('merge_odf_manage')
 				->values([
 					'folder_id' => $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT),
 					'mapping_type' => $query->createNamedParameter($type),
 					'mapping_id' => $query->createNamedParameter($id)
 				]);
 		} else {
-			$query->delete('template_repo_manage')
+			$query->delete('merge_odf_manage')
 				->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)))
 				->andWhere($query->expr()->eq('mapping_type', $query->createNamedParameter($type)))
 				->andWhere($query->expr()->eq('mapping_id', $query->createNamedParameter($id)));
@@ -693,7 +693,7 @@ class FolderManager {
 	public function removeFolder(int $folderId): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('template_repo')
+		$query->delete('merge_odf')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
@@ -704,7 +704,7 @@ class FolderManager {
 	public function setFolderQuota(int $folderId, int $quota): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo')
+		$query->update('merge_odf')
 			->set('quota', $query->createNamedParameter($quota))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId)));
 		$query->executeStatement();
@@ -716,7 +716,7 @@ class FolderManager {
 	public function renameFolder(int $folderId, string $newMountPoint): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo')
+		$query->update('merge_odf')
 			->set('mount_point', $query->createNamedParameter($newMountPoint))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
@@ -728,7 +728,7 @@ class FolderManager {
 	public function deleteGroup(string $groupId): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->delete('template_repo_groups')
+		$query->delete('merge_odf_groups')
 			->where($query->expr()->eq('group_id', $query->createNamedParameter($groupId)));
 		$query->executeStatement();
 	}
@@ -739,14 +739,14 @@ class FolderManager {
 	public function setFolderACL(int $folderId, bool $acl): void {
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo')
+		$query->update('merge_odf')
 			->set('acl', $query->createNamedParameter((int)$acl, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId)));
 		$query->executeStatement();
 
 		if ($acl === false) {
 			$query = $this->connection->getQueryBuilder();
-			$query->delete('template_repo_manage')
+			$query->delete('merge_odf_manage')
 				->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId)));
 			$query->executeStatement();
 		}
@@ -795,7 +795,7 @@ class FolderManager {
 	public function setAPIServer($folderId, $apiServer)	{
 		$query = $this->connection->getQueryBuilder();
 
-		$query->update('template_repo')
+		$query->update('merge_odf')
 			->set('api_server', $query->createNamedParameter($apiServer))
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
@@ -804,7 +804,7 @@ class FolderManager {
 	public function getAPIServer($folderId)	{
 		$query = $this->connection->getQueryBuilder();
 		$query->select('api_server')
-			->from('template_repo')
+			->from('merge_odf')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();
@@ -841,7 +841,7 @@ class FolderManager {
 	{
 		$query = $this->connection->getQueryBuilder();
 		$query->select('mount_point')
-			->from('template_repo')
+			->from('merge_odf')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();

@@ -27,6 +27,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 class PageController extends Controller {
 	/**
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
 	public function index(): TemplateResponse {
 		$response = new TemplateResponse(

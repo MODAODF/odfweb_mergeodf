@@ -10,8 +10,10 @@ webpackConfig.entry = {
 	],
 	files: [
 		'./src/files.js',
-		'./src/templaterepofilelist.js',
-		'./src/templaterepoplugin.js'
+		'./src/mergeodfplugin.js',
+		'./src/mergeodffilelist.js',
+		'./src/appfilelist.js',
+		'./src/appplugin.js'
 	]
 }
 

@@ -18,8 +18,8 @@ class Version102020Date20180806161449 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo')) {
-			$table = $schema->createTable('template_repo');
+		if (!$schema->hasTable('merge_odf')) {
+			$table = $schema->createTable('merge_odf');
 			$table->addColumn('folder_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -42,8 +42,8 @@ class Version102020Date20180806161449 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['folder_id']);
 		}
 
-		if (!$schema->hasTable('template_repo_groups')) {
-			$table = $schema->createTable('template_repo_groups');
+		if (!$schema->hasTable('merge_odf_groups')) {
+			$table = $schema->createTable('merge_odf_groups');
 			$table->addColumn('applicable_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -62,7 +62,7 @@ class Version102020Date20180806161449 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 			$table->setPrimaryKey(['applicable_id']);
-			$table->addIndex(['group_id'], 'template_repo_group_value');
+			$table->addIndex(['group_id'], 'merge_odf_group_value');
 			$table->addUniqueIndex(['folder_id', 'group_id'], 'templates_repo_group');
 		}
 		return $schema;

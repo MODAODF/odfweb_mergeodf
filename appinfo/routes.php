@@ -1,6 +1,19 @@
 <?php
 
 return ['routes' => [
+	/**
+	 * Main routes
+	 */
+	[
+		'name' => 'page#index',
+		'url'  => '/settings/admin',
+		'verb' => 'GET'
+	],
+	[
+		'name' => 'view#index',
+		'url'  => '/',
+		'verb' => 'GET'
+	],
 	[
 		'name' => 'Folder#getFolders',
 		'url' => '/folders',

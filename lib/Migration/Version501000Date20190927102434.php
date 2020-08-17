@@ -20,7 +20,7 @@ class Version501000Date20190927102434 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('template_repo');
+		$table = $schema->getTable('merge_odf');
 		$table->changeColumn('mount_point', [
 			'notnull' => true,
 			'length' => 4000

@@ -25,8 +25,8 @@ class Version201000Date20190111132839 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo_acl')) {
-			$table = $schema->createTable('template_repo_acl');
+		if (!$schema->hasTable('merge_odf_acl')) {
+			$table = $schema->createTable('merge_odf_acl');
 			$table->addColumn('acl_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,

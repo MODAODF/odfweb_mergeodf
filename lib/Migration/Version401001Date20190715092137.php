@@ -38,8 +38,8 @@ class Version401001Date20190715092137 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo_manage')) {
-			$table = $schema->createTable('template_repo_manage');
+		if (!$schema->hasTable('merge_odf_manage')) {
+			$table = $schema->createTable('merge_odf_manage');
 			$table->addColumn('folder_id', 'bigint', [
 				'notnull' => true,
 				'length' => 6,

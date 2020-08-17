@@ -31,8 +31,8 @@ class Version401006Date20200428094708 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo_users')) {
-			$table = $schema->createTable('template_repo_users');
+		if (!$schema->hasTable('merge_odf_users')) {
+			$table = $schema->createTable('merge_odf_users');
 			$table->addColumn('applicable_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -51,8 +51,8 @@ class Version401006Date20200428094708 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 			$table->setPrimaryKey(['applicable_id']);
-			$table->addIndex(['folder_id'], 'template_repo');
-			$table->addIndex(['user_id'], 'template_repo_user_value');
+			$table->addIndex(['folder_id'], 'merge_odf');
+			$table->addIndex(['user_id'], 'merge_odf_user_value');
 			$table->addUniqueIndex(['folder_id', 'user_id'], 'templates_repo_user');
 		}
 		return $schema;

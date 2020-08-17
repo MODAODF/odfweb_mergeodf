@@ -51,10 +51,10 @@ class FolderManagerTest extends TestCase {
 
 	private function clean() {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->delete('template_repo')->execute();
+		$query->delete('merge_odf')->execute();
 
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->delete('template_repo_groups')->execute();
+		$query->delete('merge_odf_groups')->execute();
 	}
 
 	private function assertHasFolders($folders) {

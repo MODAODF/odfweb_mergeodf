@@ -20,7 +20,7 @@ class Version501000Date20191218182434 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('template_repo_trash');
+		$table = $schema->getTable('merge_odf_trash');
 		if (!$table->hasColumn('file_id')) {
 			$table->addColumn('file_id', 'bigint', [
 				'notnull' => false,

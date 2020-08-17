@@ -14,7 +14,7 @@ use OCP\Migration\IOutput;
  */
 class Version104000Date20180918132853 extends SimpleMigrationStep {
 	public function name(): string {
-		return 'Add template_repo_trash table';
+		return 'Add merge_odf_trash table';
 	}
 
 	public function description(): string {
@@ -25,8 +25,8 @@ class Version104000Date20180918132853 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo_trash')) {
-			$table = $schema->createTable('template_repo_trash');
+		if (!$schema->hasTable('merge_odf_trash')) {
+			$table = $schema->createTable('merge_odf_trash');
 			$table->addColumn('trash_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,

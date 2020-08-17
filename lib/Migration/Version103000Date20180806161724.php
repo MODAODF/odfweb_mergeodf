@@ -26,10 +26,10 @@ class Version103000Date20180806161724 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		// copy data
-		if ($schema->hasTable('template_repo_applicable')) {
+		if ($schema->hasTable('merge_odf_applicable')) {
 			$query = $this->connection->getQueryBuilder();
 			$query->select(['folder_id', 'permissions', 'group_id'])
-				->from('template_repo_applicable');
+				->from('merge_odf_applicable');
 			$result = $query->executeQuery();
 			$this->applicableData = $result->fetchAll(\PDO::FETCH_ASSOC);
 		}
@@ -39,8 +39,8 @@ class Version103000Date20180806161724 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('template_repo_groups')) {
-			$table = $schema->createTable('template_repo_groups');
+		if (!$schema->hasTable('merge_odf_groups')) {
+			$table = $schema->createTable('merge_odf_groups');
 			$table->addColumn('applicable_id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -64,8 +64,8 @@ class Version103000Date20180806161724 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['folder_id', 'group_id'], 'templates_repo_group');
 		}
 
-		if ($schema->hasTable('template_repo_applicable')) {
-			$schema->dropTable('template_repo_applicable');
+		if ($schema->hasTable('merge_odf_applicable')) {
+			$schema->dropTable('merge_odf_applicable');
 		}
 
 		return $schema;
@@ -77,7 +77,7 @@ class Version103000Date20180806161724 extends SimpleMigrationStep {
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		if (count($this->applicableData)) {
 			$query = $this->connection->getQueryBuilder();
-			$query->insert('template_repo_groups')
+			$query->insert('merge_odf_groups')
 				->values([
 					'folder_id' => $query->createParameter('folder'),
 					'group_id' => $query->createParameter('group'),
