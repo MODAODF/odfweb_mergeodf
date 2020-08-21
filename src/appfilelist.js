@@ -42,13 +42,6 @@ $(document).ready(function () {
 						return;
 					}
 					OC.Plugins.attach('OCA.Files.MergeODFAPPFileList', this);
-					$.ajax({
-						url: OC.generateUrl('/apps/mergeodf/folderlist'),
-						type: 'GET',
-						dataType: 'json'
-					}).done(() => {
-						console.log("ffffff");
-					});
 				},
 
 				updateEmptyContent: function () {

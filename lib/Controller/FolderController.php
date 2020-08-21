@@ -345,6 +345,44 @@ class FolderController extends OCSController {
 		}, $nodes));
 	}
 
+	/**
+	 * @param \OCP\Files\Node[] $nodes
+	 * @return array
+	 */
+	private function formatFileNodes(array $nodes)
+	{
+		return array_values(array_map(function (Node $node) {
+			/** @var \OC\Files\Node\Node $shareTypes */
+			$shareTypes = [0];
+			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$parts = explode('/', $node->getPath());
+			if (isset($parts[2])) {
+				$file['path'] = '/' . $this->manager->getFolder($parts[2],0)['mount_point'];
+			} else {
+				$file['path'] = '/';
+			}
+			if (!empty($shareTypes)) {
+				$file['shareTypes'] = $shareTypes;
+			}
+			$templateFormatFile = array(
+				"id" => strval($file['id']),
+				"parentId" => strval($file['parentId']),
+				"permissions" => $file['permissions'],
+				"mimetype" => $file['mimetype'],
+				"name" => $parts[3],
+				"size" => $file['size'],
+				"type" => "dir",
+				"etag" => $file['etag'],
+				"path" => $file['path'],
+				"mtime" => $file['mtime'],
+				"mountType" => "mergeodf"
+
+			);
+			return $file;
+			return $templateFormatFile;
+		}, $nodes));
+	}
+
 	public function getFolderList()	{
 		$x = 1;
 		$mounts  = $this->rootFolder->getMountsIn("");
@@ -354,7 +392,6 @@ class FolderController extends OCSController {
 			else
 				return False;
 		});
-
 		$nodes = array_map(function ($mount) {
 			$path = $mount->getMountPoint();
 			$info = Filesystem::getView()->getFileInfo($path);
@@ -363,6 +400,22 @@ class FolderController extends OCSController {
 		}, $mounts);
 
 		$files = $this->formatNodes($nodes);
+		return new JSONResponse(['files' => $files]);
+	}
+
+	public function getFolderContent($folderId)
+	{
+		$folder = $this->mountProvider->getFolder($folderId, false);
+		$dirList = $folder->getDirectoryListing();
+		$files = $this->formatFileNodes($dirList);
+		return new JSONResponse(['files' => $files]);
+	}
+
+	public function getFolderInfo($folderId)
+	{
+		$folder = $this->mountProvider->getFolder($folderId, false);
+		$node = $this->rootFolder->get($folder->getPath());
+		$files = $this->formatNodes([$node]);
 		return new JSONResponse(['files' => $files]);
 	}
 

@@ -117,6 +117,16 @@ return ['routes' => [
 		'verb' => 'GET'
 	],
 	[
+		'name' => 'Folder#getFolderContent',
+		'url' => '/foldercontent/{folderId}',
+		'verb' => 'GET'
+	],
+	[
+		'name' => 'Folder#getFolderInfo',
+		'url' => '/folderinfo/{folderId}',
+		'verb' => 'GET'
+	],
+	[
 		'name' => 'Folder#syncFolder',
 		'url' => '/syncfolder/{id}',
 		'verb' => 'GET'
