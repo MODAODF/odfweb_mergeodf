@@ -172,7 +172,7 @@ class ViewController extends Controller {
 		\OCP\Util::addScript('mergeodf', 'app');
 		\OCP\Util::addScript('mergeodf', 'newfilemenu');
 		\OCP\Util::addScript('mergeodf', 'operationprogressbar');
-		\OCP\Util::addScript('mergeodf', 'test_3');
+		\OCP\Util::addScript('mergeodf', 'custom_filelist');
 
 		// mostly for the home storage's free space
 		// FIXME: Make non static
