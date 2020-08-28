@@ -57,7 +57,14 @@ $(document).ready(function () {
 						if (this.initialized) {
 							return;
 						}
+						
+						// let each filelist have their own and unique progressbar
+						this._operationProgressBar = new OCA.MergeODF.OperationProgressBar();
+						this._operationProgressBar.parent_id = `#app-content-mergeodflist-${options.list_id}`;
 						OC.Plugins.attach('OCA.Files.MergeODFAPPFileList_' + options.list_id, this);
+
+						// 修改每個 app-content 的 id 讓 jquery.fileupload.js 的事件註冊在正確的 DOM 上面 
+						this.$el.find('#file_upload_start').attr("id", "file_upload_start_"+options.list_id);
 					},
 
 					updateEmptyContent: function () {
@@ -103,20 +110,51 @@ $(document).ready(function () {
 							url: OC.generateUrl('/apps/mergeodf/folderinfo/' + this.list_id),
 							type: 'GET',
 							dataType: 'json'
-						}).then(callBack,callBack);
+						}).then(callBack, callBack);
 
 						if (result.files) {
 							this.setFiles(result.files.sort(this._sortComparator));
 							return true;
 						}
+
 						return false;
 					},
 
 					updateDirInfoCallback: function (result) {
 						this.dirInfo = new OC.Files.FileInfo(result["files"][0]);
-						window.FileList.dirInfo = this.dirInfo ;
-						console.log(this.dirInfo.permissions);
+						window.FileList.dirInfo = this.dirInfo;
 						this._updateDirectoryPermissions();
+						// Update the #free_space
+						this.updateStorageStatistics(true);
+					},
+					_updateDirectoryPermissions: function () {
+						var isCreatable = (this.dirInfo.permissions & OC.PERMISSION_CREATE) !== 0 && this.$el.find('#free_space').val() !== '0';
+						this.$el.find('#permissions').val(this.dirInfo.permissions);
+						this.$el.find('.creatable').toggleClass('hidden', !isCreatable);
+						this.$el.find('.notCreatable').toggleClass('hidden', isCreatable);
+					},
+					_onClickNewButton: function (event) {
+						var $target = $(event.target);
+						if (!$target.hasClass('.button')) {
+							$target = $target.closest('.button');
+						}
+						this._newButton.tooltip('hide');
+						event.preventDefault();
+						if ($target.hasClass('disabled')) {
+							return false;
+						}
+						if (!this._newFileMenu) {
+							// 讓 newfilemenu 對 file_start_upload 能夠針對不同的 filelist 進行辨識
+							this._newFileMenu = new OCA.MergeODF.NewFileMenu({
+								fileList: this,
+								parent_id: `#app-content-mergeodflist-${this.list_id}`,
+								list_id: this.list_id
+							});
+							this.$el.find('.actions').append(this._newFileMenu.$el);
+						}
+						this._newFileMenu.showAt($target);
+
+						return false;
 					}
 				});
 			OCA.Files['MergeODFAPPFileList_' + list_id] = MergeODFAPPFileList;
@@ -183,7 +221,9 @@ $(document).ready(function () {
 						// created.
 						shown: true,
 						list_id: this.list_id,
-						mount_point: this.mount_point
+						mount_point: this.mount_point,
+						enableUpload: true,
+						maxChunkSize: OC.appConfig.files && OC.appConfig.files.max_chunk_size
 					}
 					);
 				},

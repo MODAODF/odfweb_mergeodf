@@ -164,11 +164,14 @@ class ViewController extends Controller {
 			}
 		}
 
-		$nav = new \OCP\Template('files', 'appnavigation', '');
+		$nav = new \OCP\Template('mergeodf', 'appnavigation', '');
 
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'mergeodf-index');
+		\OCP\Util::addScript('mergeodf', 'app');
+		\OCP\Util::addScript('mergeodf', 'newfilemenu');
+		\OCP\Util::addScript('mergeodf', 'operationprogressbar');
 		\OCP\Util::addScript('mergeodf', 'test_3');
 
 		// mostly for the home storage's free space
