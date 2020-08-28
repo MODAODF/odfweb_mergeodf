@@ -34,12 +34,7 @@
 <table id="filestable" class="list-container <?php p($_['showgridview'] ? 'view-grid' : '') ?>" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="250" data-preview-y="250">
 	<thead>
 		<tr>
-			<th id="headerSelection" class="hidden column-selection">
-				<input type="checkbox" id="select_all_files" class="select-all checkbox"/>
-				<label for="select_all_files">
-					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
-				</label>
-			</th>
+			
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<a class="name sort columntitle" data-sort="name">
@@ -70,7 +65,7 @@
 </table>
 <input type="hidden" name="dir" id="dir" value="" />
 <div class="hiddenuploadfield">
-	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
+	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" accept=".ott,.ots,.otp" />
 </div>
 <div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
