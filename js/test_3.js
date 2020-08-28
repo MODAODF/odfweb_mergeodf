@@ -2,7 +2,13 @@ $(document).ready(function () {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function () {
-		OCA.Files.App.setActiveView("mergeodflist-1");
+		if (window.location.search.split("&").length >= 2){
+			view_target = window.location.search.split("&")[1].split("=")[1]
+			OCA.Files.App.setActiveView(view_target);
+		}
+		else{
+			OCA.Files.App.setActiveView("mergeodflist-1");
+		}
 	});
 });
 
