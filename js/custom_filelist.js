@@ -71,6 +71,11 @@ $(document).ready(function () {
 
 						// 修改每個 app-content 的 id 讓 jquery.fileupload.js 的事件註冊在正確的 DOM 上面 
 						this.$el.find('#file_upload_start').attr("id", "file_upload_start_"+options.list_id);
+						
+						// Change the default _tabViews
+						this._detailsView._tabViews=[];
+						this.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));
+						this.registerTabView(new OCA.MergeODF.MergeODFTabView({order: -50}));
 					},
 
 					updateEmptyContent: function () {
