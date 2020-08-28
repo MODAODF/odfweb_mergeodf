@@ -789,6 +789,45 @@ class FolderManager {
 	}
 
 	/**
+	 * @param IUser $user
+	 * @param int $rootStorageId
+	 * @return array[]
+	 */
+	public function getFoldersForUserHidden(IUser $user, $rootStorageId = 0)
+	{
+		
+		$groups = $this->groupManager->getUserGroupIds($user);
+		$folders = array_reduce($groups, function ($folders, $groupId) use ($rootStorageId) {
+			return array_merge($folders, $this->getFoldersForGroup($groupId, $rootStorageId));
+		}, []);
+
+		$mergedFolders = [];
+		foreach ($folders as $folder) {
+			$id = (int)$folder['folder_id'];
+			if (isset($mergedFolders[$id])) {
+				$mergedFolders[$id]['permissions'] |= $folder['permissions'];
+			} else {
+				$mergedFolders[$id] = $folder;
+			}
+		}
+
+		#$mergedFolders = [];
+		// Show manager directory only for User
+		$dd = \OC::$server;
+		$folders = $this->getFoldersByUSer($user->getUID(), $rootStorageId);
+		foreach ($folders as $folder) {
+			$id = (int) $folder['folder_id'];
+			if (isset($mergedFolders[$id])) {
+				$mergedFolders[$id]['permissions'] |= $folder['permissions'];
+			} else {
+				$mergedFolders[$id] = $folder;
+			}
+		}
+		
+		return array_values($mergedFolders);
+	}
+
+	/**
 	 * @param string $folderId
 	 * @param string $apiServer
 	 */
