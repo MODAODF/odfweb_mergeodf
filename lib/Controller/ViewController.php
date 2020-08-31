@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -52,7 +53,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *
  * @package OCA\Files\Controller
  */
-class ViewController extends Controller {
+class ViewController extends Controller
+{
 	/** @var string */
 	protected $appName;
 	/** @var IRequest */
@@ -74,7 +76,8 @@ class ViewController extends Controller {
 	/** @var Helper */
 	protected $activityHelper;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		IURLGenerator $urlGenerator,
 		IL10N $l10n,
@@ -103,7 +106,8 @@ class ViewController extends Controller {
 	 * @param string $scriptName
 	 * @return string
 	 */
-	protected function renderScript($appName, $scriptName) {
+	protected function renderScript($appName, $scriptName)
+	{
 		$content    = '';
 		$appPath    = \OC_App::getAppPath($appName);
 		$scriptPath = $appPath . '/' . $scriptName;
@@ -124,7 +128,8 @@ class ViewController extends Controller {
 	 * @return array
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	protected function getStorageInfo() {
+	protected function getStorageInfo()
+	{
 		$dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo('/', $dirInfo);
@@ -137,7 +142,8 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(string $fileid = null): Response
+	{
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
 			return $this->redirectToFile($fileid);
@@ -155,7 +161,8 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false)
+	{
 		if ($fileid !== null) {
 			try {
 				return $this->redirectToFile($fileid);
@@ -168,8 +175,39 @@ class ViewController extends Controller {
 
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
-		\OCP\Util::addScript('files', 'mergeodf-index');
+		$files_source = [
+			"app",
+			"templates",
+			"file-upload",
+			"newfilemenu",
+			"jquery.fileupload",
+			"jquery-visibility",
+			"fileinfomodel",
+			"filesummary",
+			"filemultiselectmenu",
+			"breadcrumb",
+			"filelist",
+			"search",
+			"tagsplugin",
+			"detailfileinfoview",
+			"sidebarpreviewmanager",
+			"sidebarpreviewtext",
+			"detailtabview",
+			"semaphore",
+			"mainfileinfodetailview",
+			"operationprogressbar",
+			"detailsview",
+			"fileactions",
+			"fileactionsmenu",
+			"files",
+			"keyboardshortcuts",
+			"navigation"
+		];
+		foreach ($files_source as $source) {
+			\OCP\Util::addScript('files', $source);
+		}
 		\OCP\Util::addScript('mergeodf', 'app');
+		\OCP\Util::addScript('mergeodf', 'dialog');
 		\OCP\Util::addScript('mergeodf', 'newfilemenu');
 		\OCP\Util::addScript('mergeodf', 'operationprogressbar');
 		\OCP\Util::addScript('mergeodf', 'mergeodftabview');
@@ -281,7 +319,8 @@ class ViewController extends Controller {
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function redirectToFile($fileId) {
+	private function redirectToFile($fileId)
+	{
 		$uid        = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$files      = $baseFolder->getById($fileId);

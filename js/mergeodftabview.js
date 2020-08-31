@@ -8,7 +8,7 @@
  *
  */
 
-(function() {
+(function () {
 
 	/**
 	 * @class OCA.Activity.ActivityTabView
@@ -27,46 +27,48 @@
 
 		_loading: false,
 		_plugins: [],
+		order:1,
 
-		initialize: function() {
+		initialize: function () {
 			console.log("tabview initialize");
+			this.order = -200;
 		},
 
-		template: function(data) {
+		template: function (data) {
 			return OCA.Activity.Templates['activitytabview'](data);
 		},
 
-		get$: function() {
+		get$: function () {
 			return this.$el;
 		},
 
-		getLabel: function() {
-			return t('activity', 'Activity');
+		getLabel: function () {
+			return "API 資訊";
 		},
 
-		getIcon: function() {
+		getIcon: function () {
 			return 'icon-activity';
 		},
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo: function (fileInfo) {
 			this._fileInfo = fileInfo;
 			this.render();
 		},
 
-		_onError: function() {
+		_onError: function () {
 			var $emptyContent = this.$el.find('.emptycontent');
 			$emptyContent.removeClass('hidden');
 			$emptyContent.find('p').text(t('activity', 'An error occurred while loading activities'));
 		},
 
-		_onRequest: function() {
+		_onRequest: function () {
 			if (this.collection.lastGivenId === 0) {
 				this.render();
 			}
 			this.$el.find('.showMore').addClass('hidden');
 		},
 
-		_onEndRequest: function() {
+		_onEndRequest: function () {
 			this.$container.removeClass('hidden');
 			this.$el.find('.loading').addClass('hidden');
 			if (this.collection.length) {
@@ -77,16 +79,50 @@
 			}
 		},
 
-		_onClickShowMore: function() {
-			
+		_onClickShowMore: function () {
+
 		},
 
 		/**
 		 * Renders this details view
 		 */
-		render: function() {
+		render: function () {
 			if (this._fileInfo) {
-				this.$el.html("<h1>Test</h1>");
+				this.$el.html("");
+				var buttonJSON = $("<button/>", { text: "取得 JSON 範例說明" });
+				var buttonYAML = $("<button/>", { text: "取得 YAML 範例說明" });
+				var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
+				buttonJSON.on("click", { endpt: endpt}, (e) => {
+					$.ajax({
+						url: OC.generateUrl(`/apps/mergeodf/${FileList.dirInfo['folderId']}/${e.data.endpt}/json`),
+						method: "GET"
+					}).success((res) => {
+						var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
+						var api_url = FileList.dirInfo.api_server + `/lool/mergeodf/${endpt}`;
+						OCA.MergeODF.dialogs.info(`${res.res}`, "JSON 範例說明", {
+							type:"json", 
+							api_url:api_url, 
+							api_name:this._fileInfo['attributes']["name"]
+						});
+					});
+				});
+				buttonYAML.on("click", { endpt: endpt}, (e) => {
+					$.ajax({
+						url: OC.generateUrl(`/apps/mergeodf/${FileList.dirInfo['folderId']}/${e.data.endpt}/api`),
+						method: "GET"
+					}).success((res) => {
+						var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
+						var api_url = FileList.dirInfo.api_server + `/lool/mergeodf/${endpt}`;
+						OCA.MergeODF.dialogs.info(`${res.res}`, "YAML 範例說明", {
+							type:"yaml", 
+							api_url:api_url, 
+							api_name:this._fileInfo['attributes']["name"]
+						});
+					});
+				});
+				buttonYAML.appendTo(this.$el);
+				buttonJSON.appendTo(this.$el);
+				//this.$el.html(`<button data-id="">${md5(FileList.dirInfo["internalPath"])+}</button>`);
 			}
 		}
 	});

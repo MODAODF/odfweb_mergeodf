@@ -338,8 +338,11 @@ class FolderController extends OCSController {
 				"etag" => $file['etag'],
 				"path" => $file['path'],
 				"mtime" => $file['mtime'],
-				"mountType" => "templaterepo"
-
+				"mountType" => "mergeodf",
+				"internalPath" => $node->getInternalPath(),
+				"folderId" => $file['name'],
+				"hasPreview" => false,
+				"api_server" => $this->manager->getAPIServer($file['name'])
 			);
 			return $templateFormatFile;
 		}, $nodes));
@@ -375,10 +378,9 @@ class FolderController extends OCSController {
 				"etag" => $file['etag'],
 				"path" => $file['path'],
 				"mtime" => $file['mtime'],
-				"mountType" => "mergeodf"
-
+				"mountType" => $file['mountType'],
+				"hasPreview" => false
 			);
-			return $file;
 			return $templateFormatFile;
 		}, $nodes));
 	}
@@ -573,4 +575,18 @@ class FolderController extends OCSController {
 		$manager->notify($notification);
 	}
 
+	public function getAPIInfo(string $folderId ,string $endpt, string $type)
+	{
+		$api_server = $this->manager->getAPIServer($folderId);
+		$url = $api_server . "/lool/mergeodf/" . $endpt ."/".$type;
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+		$res = curl_exec($curl);
+		return new JSONResponse(["res" => $res]);
+	}
 }

@@ -75,7 +75,10 @@ $(document).ready(function () {
 						// Change the default _tabViews
 						this._detailsView._tabViews=[];
 						this.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));
-						this.registerTabView(new OCA.MergeODF.MergeODFTabView({order: -50}));
+						this.registerTabView(new OCA.MergeODF.MergeODFTabView());
+
+						//Remove Share From FileAction
+						delete this.fileActions.actions.all.Share;
 					},
 
 					updateEmptyContent: function () {

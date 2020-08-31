@@ -130,5 +130,10 @@ return ['routes' => [
 		'name' => 'Folder#syncFolder',
 		'url' => '/syncfolder/{id}',
 		'verb' => 'GET'
+	],
+	[
+		'name' => 'Folder#getAPIInfo',
+		'url' => '/{folderId}/{endpt}/{type}',
+		'verb' => 'GET'
 	]
 ]];
