@@ -374,7 +374,7 @@ class FolderController extends OCSController {
 				"mimetype" => $file['mimetype'],
 				"name" => $parts[3],
 				"size" => $file['size'],
-				"type" => "dir",
+				"type" => $file['type'],
 				"etag" => $file['etag'],
 				"path" => $file['path'],
 				"mtime" => $file['mtime'],
