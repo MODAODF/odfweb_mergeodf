@@ -2,12 +2,15 @@ $(document).ready(function () {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function () {
-		if (window.location.search.split("&").length >= 2){
+		if (window.location.search.split("&").length >= 2) {
 			view_target = window.location.search.split("&")[1].split("=")[1]
 			OCA.Files.App.setActiveView(view_target);
 		}
-		else{
-			OCA.Files.App.setActiveView("mergeodflist-1");
+		else {
+			if ($("#app-navigation").find("li").length !== 0) {
+				var view_id = $($("#app-navigation").find("li")[0]).attr("data-id");
+				OCA.Files.App.setActiveView(view_id);
+			}
 		}
 	});
 });
@@ -63,17 +66,17 @@ $(document).ready(function () {
 						if (this.initialized) {
 							return;
 						}
-						
+
 						// let each filelist have their own and unique progressbar
 						this._operationProgressBar = new OCA.MergeODF.OperationProgressBar();
 						this._operationProgressBar.parent_id = `#app-content-mergeodflist-${options.list_id}`;
 						OC.Plugins.attach('OCA.Files.MergeODFAPPFileList_' + options.list_id, this);
 
 						// 修改每個 app-content 的 id 讓 jquery.fileupload.js 的事件註冊在正確的 DOM 上面 
-						this.$el.find('#file_upload_start').attr("id", "file_upload_start_"+options.list_id);
-						
+						this.$el.find('#file_upload_start').attr("id", "file_upload_start_" + options.list_id);
+
 						// Change the default _tabViews
-						this._detailsView._tabViews=[];
+						this._detailsView._tabViews = [];
 						this.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));
 						this.registerTabView(new OCA.MergeODF.MergeODFTabView());
 
