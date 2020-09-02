@@ -28,7 +28,7 @@ OC.Plugins.register('OCA.Files.FileList', {
 		console.log(target);
 		target._isHiddenFile = function(file) {
 			//Using  mountType to Hide
-			if (file.mountType === "mergeodf"){
+			if (file.mountType === "mergeodf" && file.type==="dir"){
 				return true;
 			}
 
