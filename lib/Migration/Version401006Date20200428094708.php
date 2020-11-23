@@ -51,9 +51,15 @@ class Version401006Date20200428094708 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 			$table->setPrimaryKey(['applicable_id']);
-			$table->addIndex(['folder_id'], 'merge_odf');
-			$table->addIndex(['user_id'], 'merge_odf_user_value');
-			$table->addUniqueIndex(['folder_id', 'user_id'], 'templates_repo_user');
+			if (!$table->hasIndex('merge_odf')) {
+				$table->addIndex(['folder_id'], 'merge_odf');
+			}
+			if (!$table->hasIndex('merge_odf_user_value')) {
+				$table->addIndex(['user_id'], 'merge_odf_user_value');
+			}
+			if (!$table->hasIndex('merge_odf_user')) {
+				$table->addUniqueIndex(['folder_id', 'user_id'], 'merge_odf_user');
+			}
 		}
 		return $schema;
 	}

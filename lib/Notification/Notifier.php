@@ -3,6 +3,7 @@
 namespace OCA\TemplateRepo\Notification;
 
 use OCP\Notification\INotifier;
+use OCP\Notification\INotification;
 
 class Notifier implements INotifier {
     protected $factory;
@@ -12,9 +13,16 @@ class Notifier implements INotifier {
 
     }
 
-    public function prepare(\OCP\Notification\INotification $notification, $languageCode)
-    {
-        if ($notification->getApp() !== 'templaterepo') {
+    public function getID():string {
+        return "mergeodf";
+    }
+
+    public function getName():string {
+        return "mergeodf";
+    }
+
+    public function prepare(INotification $notification, $languageCode): INotification {
+        if ($notification->getApp() !== 'mergeodf') {
             // Not my app => throw
             throw new \InvalidArgumentException();
         }
