@@ -27,7 +27,7 @@
 
 		_loading: false,
 		_plugins: [],
-		order:1,
+		order: 1,
 
 		initialize: function () {
 			console.log("tabview initialize");
@@ -92,7 +92,7 @@
 				var buttonJSON = $("<button/>", { text: "取得 JSON 範例說明" });
 				var buttonYAML = $("<button/>", { text: "取得 YAML 範例說明" });
 				var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
-				buttonJSON.on("click", { endpt: endpt}, (e) => {
+				buttonJSON.on("click", { endpt: endpt }, (e) => {
 					$.ajax({
 						url: OC.generateUrl(`/apps/mergeodf/${FileList.dirInfo['folderId']}/${e.data.endpt}/json`),
 						method: "GET"
@@ -100,13 +100,13 @@
 						var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
 						var api_url = FileList.dirInfo.api_server + `/lool/mergeodf/${endpt}`;
 						OCA.MergeODF.dialogs.info(`${res.res}`, "JSON 範例說明", {
-							type:"json", 
-							api_url:api_url, 
-							api_name:this._fileInfo['attributes']["name"]
+							type: "json",
+							api_url: api_url,
+							api_name: this._fileInfo['attributes']["name"]
 						});
 					});
 				});
-				buttonYAML.on("click", { endpt: endpt}, (e) => {
+				buttonYAML.on("click", { endpt: endpt }, (e) => {
 					$.ajax({
 						url: OC.generateUrl(`/apps/mergeodf/${FileList.dirInfo['folderId']}/${e.data.endpt}/api`),
 						method: "GET"
@@ -114,9 +114,9 @@
 						var endpt = md5(FileList.dirInfo["internalPath"] + "/" + this._fileInfo['attributes']["name"]);
 						var api_url = FileList.dirInfo.api_server + `/lool/mergeodf/${endpt}`;
 						OCA.MergeODF.dialogs.info(`${res.res}`, "YAML 範例說明", {
-							type:"yaml", 
-							api_url:api_url, 
-							api_name:this._fileInfo['attributes']["name"]
+							type: "yaml",
+							api_url: api_url,
+							api_name: this._fileInfo['attributes']["name"]
 						});
 					});
 				});
@@ -130,3 +130,25 @@
 	OCA.MergeODF = OCA.MergeODF || {};
 	OCA.MergeODF.MergeODFTabView = MergeODFTabView;
 })();
+/*
+ * Copyright (c) 2015
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+(function (OCA) {
+
+	var FilesPlugin = {
+		attach: function (fileList) {
+			fileList.registerTabView(new OCA.MergeODF.MergeODFTabView());
+		}
+	};
+
+	OC.Plugins.register('OCA.Files.FileList', FilesPlugin);
+
+})(OCA);
+

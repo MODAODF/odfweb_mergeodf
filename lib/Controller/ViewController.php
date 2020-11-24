@@ -177,31 +177,32 @@ class ViewController extends Controller
 		\OCP\Util::addStyle('files', 'merged');
 		$files_source = [
 			"app",
-			"templates",
-			"file-upload",
-			"newfilemenu",
-			"jquery.fileupload",
-			"jquery-visibility",
-			"fileinfomodel",
-			"filesummary",
-			"filemultiselectmenu",
 			"breadcrumb",
-			"filelist",
-			"search",
-			"tagsplugin",
 			"detailfileinfoview",
-			"sidebarpreviewmanager",
-			"sidebarpreviewtext",
-			"detailtabview",
-			"semaphore",
-			"mainfileinfodetailview",
-			"operationprogressbar",
 			"detailsview",
+			"detailtabview",
+			"file-upload",
 			"fileactions",
 			"fileactionsmenu",
+			"fileinfomodel",
+			"filelist",
+			"filemultiselectmenu",
 			"files",
+			"filesummary",
+			"gotoplugin",
+			"jquery-visibility",
+			"jquery.fileupload",
 			"keyboardshortcuts",
-			"navigation"
+			"mainfileinfodetailview",
+			"navigation",
+			"newfilemenu",
+			"operationprogressbar",
+			"search",
+			"semaphore",
+			"sidebarpreviewmanager",
+			"sidebarpreviewtext",
+			"tagsplugin",
+			"templates"
 		];
 		foreach ($files_source as $source) {
 			\OCP\Util::addScript('files', $source);
@@ -210,7 +211,6 @@ class ViewController extends Controller
 		\OCP\Util::addScript('mergeodf', 'dialog');
 		\OCP\Util::addScript('mergeodf', 'newfilemenu');
 		\OCP\Util::addScript('mergeodf', 'operationprogressbar');
-		\OCP\Util::addScript('mergeodf', 'mergeodftabview');
 		\OCP\Util::addScript('mergeodf', 'custom_filelist');
 
 		// mostly for the home storage's free space

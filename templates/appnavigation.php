@@ -18,6 +18,17 @@
 				<?php p($l->t('Settings')); ?>
 			</button>
 		</div>
+		<div id="app-settings-content">
+			<div id="files-setting-showhidden">
+				<input class="checkbox" id="showhiddenfilesToggle"
+					   checked="checked" type="checkbox">
+				<label for="showhiddenfilesToggle"><?php p($l->t('Show hidden files')); ?></label>
+			</div>
+			<label for="webdavurl"><?php p($l->t('WebDAV')); ?></label>
+			<input id="webdavurl" type="text" readonly="readonly"
+				   value="<?php p($_['webdav_url']); ?>"/>
+			<em><?php print_unescaped($l->t('Use this address to <a href="%s" target="_blank" rel="noreferrer noopener">access your Files via WebDAV</a>', array(link_to_docs('user-webdav')))); ?></em>
+		</div>
 	</div>
 </div>
 

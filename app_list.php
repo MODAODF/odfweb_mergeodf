@@ -20,7 +20,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-
+use OCA\Files\Event\LoadSidebar;
+use OCA\MergeODF\Event\LoadSelfSidebar;
 // TODO: move to handlebars
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
@@ -37,7 +38,10 @@ $tmpl = new OCP\Template('mergeodf', 'app_list', '');
    js : \OC_Util::addScript
 */
 OC_Util::addStyle('mergeodf', "merged", true);
-
+// fire script events
+$eventDispatcher = \OC::$server->getEventDispatcher();
+$eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
+$eventDispatcher->dispatch(LoadSelfSidebar::class, new LoadSelfSidebar());
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 $tmpl->assign('publicUploadEnabled', $publicUploadEnabled);

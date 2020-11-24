@@ -39,6 +39,8 @@ use OCA\MergeODF\Command\ExpireGroup\ExpireGroupTrash;
 use OCA\MergeODF\Folder\FolderManager;
 use OCA\MergeODF\Helper\LazyFolder;
 use OCA\MergeODF\Listeners\LoadAdditionalScriptsListener;
+use OCA\MergeODF\Listeners\LoadSelfSidebarListener;
+use OCA\MergeODF\Event\LoadSelfSidebar;
 use OCA\MergeODF\Mount\MountProvider;
 use OCA\MergeODF\Trash\TrashBackend;
 use OCA\MergeODF\Trash\TrashManager;
@@ -52,6 +54,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
@@ -188,6 +191,10 @@ class Application extends App implements IBootstrap {
 				$rootFolderProvider
 			);
 		});
+
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = $container->query(IEventDispatcher::class);
+		$dispatcher->addServiceListener(LoadSelfSidebar::class, LoadSelfSidebarListener::class);
 
 		$context->registerServiceAlias(IUserMappingManager::class, UserMappingManager::class);
 	}

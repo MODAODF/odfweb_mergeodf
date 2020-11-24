@@ -76,9 +76,9 @@ $(document).ready(function () {
 						this.$el.find('#file_upload_start').attr("id", "file_upload_start_" + options.list_id);
 
 						// Change the default _tabViews
-						this._detailsView._tabViews = [];
-						this.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));
-						this.registerTabView(new OCA.MergeODF.MergeODFTabView());
+						//this._detailsView._tabViews = [];
+						//this.registerTabView(new OCA.Comments.CommentsTabView("commentsTabView"));
+						//this.registerTabView(new OCA.MergeODF.MergeODFTabView());
 
 						//Remove Share From FileAction
 						delete this.fileActions.actions.all.Share;
