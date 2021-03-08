@@ -12,7 +12,7 @@
 - Better synchronisatin with the desktop client @mejo
 - Fix expiration when storage is unlimited and auto expiration is on @CarlSchwan
 - Dispatch audit event when changing ACL rules @CarlSchwan
-- Performance improvement and get ACL in CLI command @rotdrop 
+- Performance improvement and get ACL in CLI command @rotdrop
 
 ## 10.0.0-beta1
 
@@ -25,13 +25,13 @@
 * [#1331](https://github.com/nextcloud/groupfolders/pull/1331) Add tooltip for user/group name in sidebar ACL list @danxuliu
 * [#1334](https://github.com/nextcloud/groupfolders/pull/1334) Fix deletion failing even if there's an entry in the folder listing @noiob
 * [#1335](https://github.com/nextcloud/groupfolders/pull/1335) Fix "contenthash" not included in chunk filename @danxuliu
-* [#1340](https://github.com/nextcloud/groupfolders/pull/1340) Cast groupfolder id to string when trying to create a new folder @juliushaertl
+* [#1340](https://github.com/nextcloud/groupfolders/pull/1340) Cast mergeodf id to string when trying to create a new folder @juliushaertl
 * [#1346](https://github.com/nextcloud/groupfolders/pull/1346) Obtain cacheEntry for created folders and handle errors more gracefully @juliushaertl
 * [#1360](https://github.com/nextcloud/groupfolders/pull/1360) Make clear arguments are ids and not names @nickvergessen
 * [#1366](https://github.com/nextcloud/groupfolders/pull/1366) Load all acl rules for a folder/search result in one go @icewind1991
 * [#1374](https://github.com/nextcloud/groupfolders/pull/1374) PreventDefault on folder create submit event @icewind1991
 * [#1375](https://github.com/nextcloud/groupfolders/pull/1375) Fix wrong method call to check restore permissions @icewind1991
-* [#1380](https://github.com/nextcloud/groupfolders/pull/1380) Add hint for subfolder groupfolders to readme @icewind1991
+* [#1380](https://github.com/nextcloud/groupfolders/pull/1380) Add hint for subfolder mergeodfs to readme @icewind1991
 * [#1395](https://github.com/nextcloud/groupfolders/pull/1395) Fixed searching for groups in the sharing sideview @jngrb
 * [#1406](https://github.com/nextcloud/groupfolders/pull/1406) Sidebar view: refresh ACL entries when fileInfo prop changes #1378 @jngrb
 * [#1415](https://github.com/nextcloud/groupfolders/pull/1415) Moved Note to the pinned issue. @pierreozoux
@@ -70,12 +70,12 @@
 
 ## 6.0.2
 
-- Allow to detect the file path for shares inside of groupfolders, e.g. when they are matched in workflow rules
+- Allow to detect the file path for shares inside of mergeodf, e.g. when they are matched in workflow rules
 - Bump dependencies
 
 ## 6.0.1
 
-- Fix sharing files from groupfolders trough ocs api
+- Fix sharing files from mergeodf trough ocs api
 - Show the full path including groupfolder in trashbin
 
 ## 6.0.0
@@ -98,7 +98,7 @@
 
 ## 5.0.1
 - Improved error handling when removing items from trash
-- Fix groupfolders breaking updating calendar details    
+- Fix mergeodf breaking updating calendar details
 
 ## 5.0.0
 - 17 compatiblity
@@ -109,7 +109,7 @@
 
 ## 4.1.1
 - Improved error handling when removing items from trash
-- Fix groupfolders breaking updating calendar details
+- Fix mergeodf breaking updating calendar details
 
 ## 4.1.0
 - Allow groups to manage ACL permissions
@@ -155,7 +155,7 @@ falsely marked as compatible for those Nextcloud releases.
 Additionally the following fixes are included
 
 - Fix groupfolder icons sometimes not being themed correctly.
-- Fix moving shared groupfolder items to trashbin. 
+- Fix moving shared groupfolder items to trashbin.
 
 ## 1.2.0
 

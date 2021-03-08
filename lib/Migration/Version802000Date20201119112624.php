@@ -35,12 +35,12 @@ class Version802000Date20201119112624 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$result = $this->ensureColumnIsNullable($schema, 'template_repo', 'acl');
+		$result = $this->ensureColumnIsNullable($schema, 'merge_odf', 'acl');
 
 		// There might be a duplicate column group which was already indexed through being primary key in Version401001Date20190715092137
-		$table = $schema->getTable('template_repo_manage');
-		if ($table->hasIndex('templates_repo_manage_unique')) {
-			$table->dropIndex('templates_repo_manage_unique');
+		$table = $schema->getTable('merge_odf_manage');
+		if ($table->hasIndex('merge_odf_manage_unique')) {
+			$table->dropIndex('merge_odf_manage_unique');
 			$result = true;
 		}
 

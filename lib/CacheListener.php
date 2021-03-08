@@ -46,7 +46,7 @@ class CacheListener {
 			return;
 		}
 
-		$jailedPath = preg_replace('/^__MergeODF\/\d+\//', '', $event->getPath());
+		$jailedPath = preg_replace('/^appdata__mergeodf\/\d+\//', '', $event->getPath());
 		if ($jailedPath !== $event->getPath()) {
 			$event->setPath($jailedPath);
 		}
