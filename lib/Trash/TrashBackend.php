@@ -245,7 +245,7 @@ class TrashBackend implements ITrashBackend {
 
 	private function userHasAccessToPath(IUser $user, string $path, int $permission = Constants::PERMISSION_READ): bool {
 		$activePermissions = $this->aclManagerFactory->getACLManager($user)
-			->getACLPermissionsForPath('appdata__mergeodf/' . ltrim($path, '/'));
+			->getACLPermissionsForPath('__mergeodf/' . ltrim($path, '/'));
 		return (bool)($activePermissions & $permission);
 	}
 

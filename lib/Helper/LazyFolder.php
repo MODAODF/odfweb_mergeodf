@@ -40,9 +40,9 @@ class LazyFolder implements Folder {
 	private function getFolder(): Folder {
 		if ($this->folder === null) {
 			try {
-				$this->folder = $this->rootFolder->get('appdata__mergeodf');
+				$this->folder = $this->rootFolder->get('__mergeodf');
 			} catch (NotFoundException $e) {
-				$this->folder = $this->rootFolder->newFolder('appdata__mergeodf');
+				$this->folder = $this->rootFolder->newFolder('__mergeodf');
 			}
 		}
 

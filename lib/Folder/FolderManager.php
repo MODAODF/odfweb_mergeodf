@@ -95,7 +95,7 @@ class FolderManager {
 		$query->select('fileid')
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($rootStorageId)))
-			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5('appdata__mergeodf'))));
+			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5('__mergeodf'))));
 
 		return (int)$query->executeQuery()->fetchOne();
 	}

@@ -52,6 +52,6 @@ class GroupMountPoint extends MountPoint {
 	}
 
 	public function getSourcePath(): string {
-		return '/appdata__mergeodf/' . $this->getFolderId();
+		return '/__mergeodf/' . $this->getFolderId();
 	}
 }
