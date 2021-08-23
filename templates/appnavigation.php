@@ -4,9 +4,14 @@
 		<?php
 
 		$pinned = 0;
-		foreach ($_['navigationItems'] as $item) {
-			$pinned = NavigationListElements($item, $l, $pinned);
+		if(count($_['navigationItems']) == 0){
+			print("<li> 目前沒有範本資料夾 </li>");
+		} else {
+			foreach ($_['navigationItems'] as $item) {
+				$pinned = NavigationListElements($item, $l, $pinned);
+			}
 		}
+
 		?>
 
 	</ul>
