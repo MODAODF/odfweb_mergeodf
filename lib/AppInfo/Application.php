@@ -97,6 +97,7 @@ class Application extends App implements IBootstrap {
 			};
 			$config = $c->get(IConfig::class);
 			$allowRootShare = $config->getAppValue('mergeodf', 'allow_root_share', 'true') === 'true';
+			$enableEncryption = $config->getAppValue('mergeodf', 'enable_encryption', 'false') === 'true';
 
 			return new MountProvider(
 				$c->getServer()->getGroupManager(),
@@ -109,7 +110,8 @@ class Application extends App implements IBootstrap {
 				$c->get(IMountProviderCollection::class),
 				$c->get(IDBConnection::class),
 				$c->get(ICacheFactory::class)->createLocal("mergeodf"),
-				$allowRootShare
+				$allowRootShare,
+				$enableEncryption
 			);
 		});
 

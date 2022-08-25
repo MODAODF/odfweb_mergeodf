@@ -30,7 +30,7 @@ use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\IUser;
 use OCP\IUserSession;
 
-class MergeODFStorage extends Quota implements IDisableEncryptionStorage {
+class MergeODFStorage extends Quota {
 	private int $folderId;
 	private ICacheEntry $rootEntry;
 	private IUserSession $userSession;
