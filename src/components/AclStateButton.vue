@@ -21,27 +21,27 @@
   -->
 <template>
 	<div v-if="readOnly">
-		<button v-if="!isAllowed" v-tooltip="t('templaterepo', 'Denied')" class="icon-deny" />
-		<button v-else v-tooltip="t('templaterepo', 'Allowed')" class="icon-checkmark" />
+		<button v-if="!isAllowed" v-tooltip="t('mergeodf', 'Denied')" class="icon-deny" />
+		<button v-else v-tooltip="t('mergeodf', 'Allowed')" class="icon-checkmark" />
 	</div>
 	<div v-else v-click-outside="popoverClose" style="position: relative;">
 		<button v-if="state === STATES.INHERIT_DENY"
-			v-tooltip="t('templaterepo', 'Denied (Inherited permission)')"
+			v-tooltip="t('mergeodf', 'Denied (Inherited permission)')"
 			:disabled="disabled"
 			class="icon-deny inherited"
 			@click="open = true" />
 		<button v-else-if="state === STATES.INHERIT_ALLOW"
-			v-tooltip="t('templaterepo', 'Allowed (Inherited permission)')"
+			v-tooltip="t('mergeodf', 'Allowed (Inherited permission)')"
 			:disabled="disabled"
 			class="icon-checkmark inherited"
 			@click="open = true" />
 		<button v-else-if="state === STATES.SELF_DENY"
-			v-tooltip="t('templaterepo', 'Denied')"
+			v-tooltip="t('mergeodf', 'Denied')"
 			:disabled="disabled"
 			:class="'icon-deny' + (inherited ? ' inherited' : '')"
 			@click="open = true" />
 		<button v-else-if="state === STATES.SELF_ALLOW"
-			v-tooltip="t('templaterepo', 'Allowed')"
+			v-tooltip="t('mergeodf', 'Allowed')"
 			:disabled="disabled"
 			:class="'icon-checkmark' + (inherited ? ' inherited' : '')"
 			@click="open = true" />
@@ -92,7 +92,7 @@ export default {
 			menu: [
 				{
 					icon: 'icon-history',
-					text: t('templaterepo', 'Inherit permission'),
+					text: t('mergeodf', 'Inherit permission'),
 					active: this.state === STATES.INHERIT_ALLOW || this.state === STATES.INHERIT_DENY,
 					action: () => {
 						this.$emit('update', STATES.INHERIT_ALLOW)
@@ -101,7 +101,7 @@ export default {
 				},
 				{
 					icon: 'icon-close',
-					text: t('templaterepo', 'Deny'),
+					text: t('mergeodf', 'Deny'),
 					active: this.state === STATES.SELF_DENY,
 					action: () => {
 						this.$emit('update', STATES.SELF_DENY)
@@ -110,7 +110,7 @@ export default {
 				},
 				{
 					icon: 'icon-history',
-					text: t('templaterepo', 'Allow'),
+					text: t('mergeodf', 'Allow'),
 					active: this.state === STATES.SELF_ALLOW,
 					action: () => {
 						this.$emit('update', STATES.SELF_ALLOW)

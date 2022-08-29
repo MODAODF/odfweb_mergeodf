@@ -23,7 +23,7 @@
 import ACL_PROPERTIES from './model/Properties'
 import Rule from './model/Rule'
 
-let client
+_.extend(OC.Files.Client, ACL_PROPERTIES)
 
 const XML_CHAR_MAP = {
 	'<': '&lt;',
@@ -137,10 +137,8 @@ const parseAclList = (acls) => {
 	return list
 }
 
-/** @type OC.Plugin */
-const FilesPlugin = {
-	attach(fileList) {
-		client = fileList.filesClient
+var client = OCA.Files.App.fileList.filesClient;
+
 		client.addFileInfoParser((response) => {
 			const data = {}
 			const props = response.propStat[0].properties
@@ -161,28 +159,22 @@ const FilesPlugin = {
 			const acls = props[ACL_PROPERTIES.PROPERTY_ACL_LIST] || []
 			const inheritedAcls = props[ACL_PROPERTIES.PROPERTY_INHERITED_ACL_LIST] || []
 
-			data.acl = parseAclList(acls)
-			data.inheritedAcls = parseAclList(inheritedAcls)
+			if (!_.isUndefined(acls)) {
+				data.acl = parseAclList(acls)
+				data.inheritedAcls = parseAclList(inheritedAcls)
 
-			data.acl.map((acl) => {
-				const inheritedAcl = data.inheritedAcls.find((inheritedAclRule) => inheritedAclRule.mappingType === acl.mappingType && inheritedAclRule.mappingId === acl.mappingId)
-				if (inheritedAcl) {
-					acl.permissions = (acl.permissions & acl.mask) | (inheritedAcl.permissions & ~acl.mask)
-				}
-				return acl
-			})
-			return data
-		})
+				data.acl.map((acl) => {
+					const inheritedAcl = data.inheritedAcls.find((inheritedAclRule) => inheritedAclRule.mappingType === acl.mappingType && inheritedAclRule.mappingId === acl.mappingId)
+					if (inheritedAcl) {
+						acl.permissions = (acl.permissions & acl.mask) | (inheritedAcl.permissions & ~acl.mask)
+					}
+					return acl
+				})
+			}
+		return data
+	})
 
-		patchClientForNestedPropPatch(client)
-	},
-};
-
-(function(OC) {
-	Object.assign(OC.Files.Client, ACL_PROPERTIES)
-})(window.OC)
-
-OC.Plugins.register('OCA.Files.FileList', FilesPlugin)
+patchClientForNestedPropPatch(client)
 
 class AclDavService {
 
@@ -238,7 +230,7 @@ class AclDavService {
 			aclList.push({ type: ACL_PROPERTIES.PROPERTY_ACL_ENTRY, data: acls[i].getProperties() })
 		}
 		const props = {}
-		props[ACL_PROPERTIES.PROPERTY_ACL_LIST] = aclList
+		props[OC.Files.Client.PROPERTY_ACL_LIST] = aclList
 		return client._client.propPatch(client._client.baseUrl + model.path + '/' + model.name, props)
 	}
 

@@ -29,22 +29,22 @@
 			<thead>
 				<tr>
 					<th />
-					<th>{{ t('templaterepo', 'Template repo') }}</th>
-					<th v-tooltip="t('templaterepo', 'Read')" class="state-column">
-						{{ t('templaterepo', 'Read') }}
+					<th>{{ t('mergeodf', 'Template repo') }}</th>
+					<th v-tooltip="t('mergeodf', 'Read')" class="state-column">
+						{{ t('mergeodf', 'Read') }}
 					</th>
-					<th v-tooltip="t('templaterepo', 'Write')" class="state-column">
-						{{ t('templaterepo', 'Write') }}
+					<th v-tooltip="t('mergeodf', 'Write')" class="state-column">
+						{{ t('mergeodf', 'Write') }}
 					</th>
-					<th v-if="model.type === 'dir'" v-tooltip="t('templaterepo', 'Create')" class="state-column">
+					<th v-if="model.type === 'dir'" v-tooltip="t('mergeodf', 'Create')" class="state-column">
 						{{
-							t('templaterepo', 'Create') }}
+							t('mergeodf', 'Create') }}
 					</th>
-					<th v-tooltip="t('templaterepo', 'Delete')" class="state-column">
-						{{ t('templaterepo', 'Delete') }}
+					<th v-tooltip="t('mergeodf', 'Delete')" class="state-column">
+						{{ t('mergeodf', 'Delete') }}
 					</th>
-					<th v-tooltip="t('templaterepo', 'Share')" class="state-column">
-						{{ t('templaterepo', 'Share') }}
+					<th v-tooltip="t('mergeodf', 'Share')" class="state-column">
+						{{ t('mergeodf', 'Share') }}
 					</th>
 					<th class="state-column" />
 				</tr>
@@ -55,7 +55,7 @@
 						<Avatar user="admin" :size="24" />
 					</td>
 					<td class="username">
-						{{ t('templaterepo', 'You') }}
+						{{ t('mergeodf', 'You') }}
 					</td>
 					<td class="state-column">
 						<AclStateButton :state="getState(OC.PERMISSION_READ, model.permissions, 1)" :read-only="true" />
@@ -114,7 +114,7 @@
 					</td>
 					<td class="state-column">
 						<a v-if="item.inherited === false"
-							v-tooltip="t('templaterepo', 'Remove access rule')"
+							v-tooltip="t('mergeodf', 'Remove access rule')"
 							class="icon-close"
 							@click="removeAcl(item)" />
 					</td>
@@ -123,7 +123,7 @@
 		</table>
 		<button v-if="isAdmin && !loading && !showAclCreate" @click="toggleAclCreate">
 			<span class="icon-add" /> {{
-				t('templaterepo', 'Add advanced permission rule') }}
+				t('mergeodf', 'Add advanced permission rule') }}
 		</button>
 		<Multiselect v-if="isAdmin && !loading"
 			v-show="showAclCreate"
@@ -133,7 +133,7 @@
 			:reset-after="true"
 			:loading="isSearching"
 			:internal-search="false"
-			:placeholder="t('templaterepo', 'Select a user or group')"
+			:placeholder="t('mergeodf', 'Select a user or group')"
 			track-by="unique"
 			@select="createAcl"
 			@search-change="searchMappings">
@@ -170,7 +170,7 @@ export default {
 		Avatar, Multiselect, AclStateButton,
 	},
 	props: {
-		fileInfo: {
+		fileModel: {
 			type: Object,
 			required: true,
 		},
@@ -225,7 +225,7 @@ export default {
 		loadAcls() {
 			this.options = []
 			this.loading = true
-			this.model = JSON.parse(JSON.stringify(this.fileInfo))
+			this.model = JSON.parse(JSON.stringify(this.fileModel))
 			client.propFind(this.model).then((data) => {
 				if (data.acls) {
 					this.list = data.acls
@@ -240,7 +240,7 @@ export default {
 		},
 		getFullDisplayName(displayName, type) {
 			if (type === 'group') {
-				return `${displayName} (${t('templaterepo', 'Group')})`
+				return `${displayName} (${t('mergeodf', 'Group')})`
 			}
 
 			return displayName
@@ -251,7 +251,7 @@ export default {
 			}
 			searchRequestCancelSource = axios.CancelToken.source()
 			this.isSearching = true
-			axios.get(generateUrl(`apps/templaterepo/folders/${this.templateRepoId}/search`) + '?format=json&search=' + query, {
+			axios.get(generateUrl(`apps/mergeodf/folders/${this.templateRepoId}/search`) + '?format=json&search=' + query, {
 				cancelToken: searchRequestCancelSource.token,
 			}).then((result) => {
 				this.isSearching = false
