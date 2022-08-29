@@ -22,9 +22,9 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\BackgroundJob;
+namespace OCA\MergeODF\BackgroundJob;
 
-use OCA\TemplateRepo\Trash\TrashBackend;
+use OCA\MergeODF\Trash\TrashBackend;
 use OCA\Files_Trashbin\Expiration;
 use OCP\IConfig;
 use OCP\BackgroundJob\TimedJob;

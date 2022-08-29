@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Versions;
+namespace OCA\MergeODF\Versions;
 
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Versions\IVersion;

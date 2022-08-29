@@ -4,7 +4,7 @@
  * @author Cyrille Bollu <cyr.debian@bollu.be> for Arawa (https://www.arawa.fr/)
  * @license GNU AGPL version 3
  *
- * TemplateRepo
+ * MergeODF
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Controller;
+namespace OCA\MergeODF\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -42,7 +42,7 @@ class DelegationController extends OCSController {
 	/**
 	 * Returns the list of all groups
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function getAllGroups(): DataResponse {
 		// Get all groups

@@ -19,13 +19,13 @@
  *
  */
 
-namespace OCA\TemplateRepo\Mount;
+namespace OCA\MergeODF\Mount;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\PermissionsMask;
-use OCA\TemplateRepo\ACL\ACLManagerFactory;
-use OCA\TemplateRepo\ACL\ACLStorageWrapper;
-use OCA\TemplateRepo\Folder\FolderManager;
+use OCA\MergeODF\ACL\ACLManagerFactory;
+use OCA\MergeODF\ACL\ACLStorageWrapper;
+use OCA\MergeODF\Folder\FolderManager;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\IMountProvider;
@@ -208,7 +208,7 @@ class MountProvider implements IMountProvider {
 			'storage' => $storage,
 			'root' => $rootPath
 		]);
-		$quotaStorage = new TemplateRepoStorage([
+		$quotaStorage = new MergeODFStorage([
 			'storage' => $baseStorage,
 			'quota' => $quota,
 			'folder_id' => $id,

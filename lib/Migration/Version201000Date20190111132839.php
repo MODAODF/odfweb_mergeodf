@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\TemplateRepo\Migration;
+namespace OCA\MergeODF\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
@@ -14,11 +14,11 @@ use OCP\Migration\IOutput;
  */
 class Version201000Date20190111132839 extends SimpleMigrationStep {
 	public function name(): string {
-		return 'Add templaterepo_acl table';
+		return 'Add mergeodf_acl table';
 	}
 
 	public function description(): string {
-		return 'Adds table to store ACL information for template repo';
+		return 'Adds table to store ACL information for mergeodf';
 	}
 
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {

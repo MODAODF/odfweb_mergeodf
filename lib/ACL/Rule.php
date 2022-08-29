@@ -21,10 +21,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\ACL;
+namespace OCA\MergeODF\ACL;
 
-use OCA\TemplateRepo\ACL\UserMapping\IUserMapping;
-use OCA\TemplateRepo\ACL\UserMapping\UserMapping;
+use OCA\MergeODF\ACL\UserMapping\IUserMapping;
+use OCA\MergeODF\ACL\UserMapping\UserMapping;
 use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlDeserializable;

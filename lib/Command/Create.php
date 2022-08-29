@@ -21,10 +21,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
 use OC\Core\Command\Base;
-use OCA\TemplateRepo\Folder\FolderManager;
+use OCA\MergeODF\Folder\FolderManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,8 +39,8 @@ class Create extends Base {
 
 	protected function configure() {
 		$this
-			->setName('templaterepo:create')
-			->setDescription('Create a new template repo')
+			->setName('mergeodf:create')
+			->setDescription('Create a new mergeodf')
 			->addArgument('name', InputArgument::REQUIRED, 'Name of the new folder');
 		parent::configure();
 	}

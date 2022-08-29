@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Controller;
+namespace OCA\MergeODF\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;

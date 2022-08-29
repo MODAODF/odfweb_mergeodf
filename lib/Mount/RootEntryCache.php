@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Mount;
+namespace OCA\MergeODF\Mount;
 
 use OC\Files\Cache\Wrapper\CacheWrapper;
 use OCP\Files\Cache\ICacheEntry;

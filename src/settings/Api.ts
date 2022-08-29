@@ -42,7 +42,7 @@ export interface Folder {
 
 export class Api {
 	getUrl(endpoint: string): string {
-		return OC.generateUrl(`apps/templaterepo/${endpoint}`);
+		return OC.generateUrl(`apps/mergeodf/${endpoint}`);
 	}
 
 	listFolders(): Thenable<Folder[]> {

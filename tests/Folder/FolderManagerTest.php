@@ -19,9 +19,9 @@
  *
  */
 
-namespace OCA\TemplateRepo\Tests\Folder;
+namespace OCA\MergeODF\Tests\Folder;
 
-use OCA\TemplateRepo\Folder\FolderManager;
+use OCA\MergeODF\Folder\FolderManager;
 use OCP\Constants;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;

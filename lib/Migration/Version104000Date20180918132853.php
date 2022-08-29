@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\TemplateRepo\Migration;
+namespace OCA\MergeODF\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
@@ -18,7 +18,7 @@ class Version104000Date20180918132853 extends SimpleMigrationStep {
 	}
 
 	public function description(): string {
-		return 'Adds table to store trashbin information for template repo';
+		return 'Adds table to store trashbin information for mergeodf';
 	}
 
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {

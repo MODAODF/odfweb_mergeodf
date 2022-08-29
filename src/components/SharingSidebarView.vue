@@ -20,8 +20,8 @@
   -
   -->
 <template>
-	<div v-if="aclEnabled && !loading" id="templaterepo-acl-container">
-		<div class="templaterepo-entry">
+	<div v-if="aclEnabled && !loading" id="mergeodf-acl-container">
+		<div class="mergeodf-entry">
 			<div class="avatar icon-group-white" />
 			<span class="username" />
 		</div>
@@ -29,7 +29,7 @@
 			<thead>
 				<tr>
 					<th />
-					<th>{{ t('mergeodf', 'Template repo') }}</th>
+					<th>{{ t('mergeodf', 'Merge ODF') }}</th>
 					<th v-tooltip="t('mergeodf', 'Read')" class="state-column">
 						{{ t('mergeodf', 'Read') }}
 					</th>
@@ -180,7 +180,7 @@ export default {
 			aclEnabled: false,
 			aclCanManage: false,
 			showAclCreate: false,
-			templateRepoId: null,
+			mergeOdfId: null,
 			loading: false,
 			isSearching: false,
 			options: [],
@@ -233,7 +233,7 @@ export default {
 				this.inheritedAclsById = data.inheritedAclsById
 				this.aclEnabled = data.aclEnabled
 				this.aclCanManage = data.aclCanManage
-				this.templateRepoId = data.templateRepoId
+				this.mergeOdfId = data.mergeOdfId
 				this.loading = false
 				this.searchMappings('')
 			})
@@ -251,7 +251,7 @@ export default {
 			}
 			searchRequestCancelSource = axios.CancelToken.source()
 			this.isSearching = true
-			axios.get(generateUrl(`apps/mergeodf/folders/${this.templateRepoId}/search`) + '?format=json&search=' + query, {
+			axios.get(generateUrl(`apps/mergeodf/folders/${this.mergeOdfId}/search`) + '?format=json&search=' + query, {
 				cancelToken: searchRequestCancelSource.token,
 			}).then((result) => {
 				this.isSearching = false
@@ -277,7 +277,7 @@ export default {
 				})
 			}).catch((error) => {
 				if (!axios.isCancel(error)) {
-					console.error('Failed to l search results for templaterepo ACL')
+					console.error('Failed to l search results for mergeodf ACL')
 				}
 			})
 		},
@@ -338,11 +338,11 @@ export default {
 </script>
 
 <style scoped>
-	#templaterepo-acl-container {
+	#mergeodf-acl-container {
 		margin-bottom: 20px;
 	}
 
-	.templaterepo-entry {
+	.mergeodf-entry {
 		height: 44px;
 		white-space: normal;
 		display: inline-flex;
@@ -356,7 +356,7 @@ export default {
 		padding: 16px;
 	}
 
-	.templaterepo-entry .username {
+	.mergeodf-entry .username {
 		padding: 0 8px;
 		overflow: hidden;
 		white-space: nowrap;

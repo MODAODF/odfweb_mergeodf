@@ -21,10 +21,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\ACL;
+namespace OCA\MergeODF\ACL;
 
-use OCA\TemplateRepo\ACL\UserMapping\IUserMapping;
-use OCA\TemplateRepo\ACL\UserMapping\IUserMappingManager;
+use OCA\MergeODF\ACL\UserMapping\IUserMapping;
+use OCA\MergeODF\ACL\UserMapping\IUserMappingManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;

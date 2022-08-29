@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Settings;
+namespace OCA\MergeODF\Settings;
 
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -39,10 +39,10 @@ class Section implements IIconSection {
 	/**
 	 * @return string The ID of the section. It is supposed to be a lower case string, e.g. 'ldap'
 	 *
-	 * @psalm-return 'templaterepo'
+	 * @psalm-return 'mergeodf'
 	 */
 	public function getID() {
-		return 'templaterepo';
+		return 'mergeodf';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Section implements IIconSection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('Template repo');
+		return $this->l->t('Merge ODF');
 	}
 
 	/**
@@ -72,6 +72,6 @@ class Section implements IIconSection {
 	 * @return string
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('templaterepo', 'app-icon.svg');
+		return $this->url->imagePath('mergeodf', 'app-icon.svg');
 	}
 }

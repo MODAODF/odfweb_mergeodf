@@ -98,8 +98,8 @@ export class App extends Component<{}, AppState> implements OC.Plugin<OC.Search.
 
 	deleteFolder(folder: Folder) {
 		OC.dialogs.confirm(
-			t('templaterepo', 'Are you sure you want to delete "{folderName}" and all files inside? This operation cannot be undone', {folderName: folder.mount_point}),
-			t('templaterepo', 'Delete "{folderName}"?', {folderName: folder.mount_point}),
+			t('mergeodf', 'Are you sure you want to delete "{folderName}" and all files inside? This operation cannot be undone', {folderName: folder.mount_point}),
+			t('mergeodf', 'Delete "{folderName}"?', {folderName: folder.mount_point}),
 			confirmed => {
 				if (confirmed) {
 					this.setState({folders: this.state.folders.filter(item => item.id !== folder.id)});
@@ -112,8 +112,8 @@ export class App extends Component<{}, AppState> implements OC.Plugin<OC.Search.
 
 	syncFolder(folder: Folder) {
 		OC.dialogs.confirm(
-			t('templaterepo', 'Are you sure you want to sync "{folderName}" and all files inside?', { folderName: folder.mount_point }),
-			t('templaterepo', 'Sync "{folderName}"?', { folderName: folder.mount_point }),
+			t('mergeodf', 'Are you sure you want to sync "{folderName}" and all files inside?', { folderName: folder.mount_point }),
+			t('mergeodf', 'Sync "{folderName}"?', { folderName: folder.mount_point }),
 			confirmed => {
 				if (confirmed) {
 					this.api.syncFolder(folder.id);
@@ -303,17 +303,17 @@ export class App extends Component<{}, AppState> implements OC.Plugin<OC.Search.
 					<td className="sync">
 						<a className="icon icon-upload icon-visible"
 							onClick={this.syncFolder.bind(this, folder)}
-							title={t('templaterepo', 'SyncServer')}/>
+							title={t('mergeodf', 'SyncServer')}/>
 					</td>
 					<td className="remove">
 						<a className="icon icon-delete icon-visible"
 						   onClick={this.deleteFolder.bind(this, folder)}
-						   title={t('templaterepo', 'Delete')}/>
+						   title={t('mergeodf', 'Delete')}/>
 					</td>
 				</tr>
 			});
 
-		return <div id="templaterepo-react-root"
+		return <div id="mergeodf-react-root"
 					onClick={() => {
 						this.setState({editingGroup: 0, editingUser: 0, editingMountPoint: 0})
 					}}>
@@ -321,27 +321,27 @@ export class App extends Component<{}, AppState> implements OC.Plugin<OC.Search.
 				<thead>
 				<tr>
 					<th onClick={() => this.onSortClick('mount_point')}>
-						{t('templaterepo', 'Folder name')}
+						{t('mergeodf', 'Folder name')}
 						<SortArrow name='mount_point' value={this.state.sort}
 								   direction={this.state.sortOrder}/>
 					</th>
 					<th onClick={() => this.onSortClick('groups')}>
-						{t('templaterepo', 'Groups')}
+						{t('mergeodf', 'Groups')}
 						<SortArrow name='groups' value={this.state.sort}
 								   direction={this.state.sortOrder}/>
 					</th>
 					<th onClick={() => this.onSortClick('users')}>
-						{t('templaterepo', 'Users')}
+						{t('mergeodf', 'Users')}
 						<SortArrow name='users' value={this.state.sort}
 							direction={this.state.sortOrder} />
 					</th>
 					<th onClick={() => this.onSortClick('quota')}>
-						{t('templaterepo', 'Quota')}
+						{t('mergeodf', 'Quota')}
 						<SortArrow name='quota' value={this.state.sort}
 								   direction={this.state.sortOrder}/>
 					</th>
 					<th>
-						{t('templaterepo', 'APIServer')}
+						{t('mergeodf', 'APIServer')}
 					</th>
 					<th>
 						同步
@@ -359,12 +359,12 @@ export class App extends Component<{}, AppState> implements OC.Plugin<OC.Search.
 								<input
 									className="newgroup-name"
 									value={this.state.newMountPoint}
-									placeholder={t('templaterepo', 'Folder name')}
+									placeholder={t('mergeodf', 'Folder name')}
 									onChange={(event) => {
 										this.setState({newMountPoint: event.target.value})
 									}}/>
 								<input type="submit"
-									   value={t('templaterepo', 'Create')}/>
+									   value={t('mergeodf', 'Create')}/>
 							</form>
 						</td>
 						<td colSpan={3}/>

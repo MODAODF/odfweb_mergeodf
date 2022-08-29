@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\ACL;
+namespace OCA\MergeODF\ACL;
 
 use OC\Files\Cache\Wrapper\CacheWrapper;
 use OCP\Constants;

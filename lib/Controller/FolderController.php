@@ -19,11 +19,11 @@
  *
  */
 
-namespace OCA\TemplateRepo\Controller;
+namespace OCA\MergeODF\Controller;
 
 use OC\AppFramework\OCS\V1Response;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Mount\MountProvider;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Mount\MountProvider;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
@@ -59,14 +59,14 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function getFolders(): DataResponse {
 		return new DataResponse($this->manager->getAllFoldersWithSize($this->getRootFolderStorageId()));
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 * @param int $id
 	 * @return DataResponse
 	 */
@@ -79,7 +79,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function addFolder(string $mountpoint): DataResponse {
 		$id = $this->manager->createFolder($mountpoint);
@@ -87,7 +87,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function removeFolder(int $id): DataResponse {
 		$folder = $this->mountProvider->getFolder($id);
@@ -99,7 +99,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function setMountPoint(int $id, string $mountPoint): DataResponse {
 		$this->manager->setMountPoint($id, $mountPoint);
@@ -107,7 +107,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function addGroup(int $id, string $group): DataResponse {
 		$this->manager->addApplicableGroup($id, $group);
@@ -115,7 +115,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function removeGroup(int $id, string $group): DataResponse {
 		$this->manager->removeApplicableGroup($id, $group);
@@ -143,7 +143,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function setPermissions(int $id, string $group, int $permissions): DataResponse {
 		$this->manager->setGroupPermissions($id, $group, $permissions);
@@ -162,7 +162,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 * @throws \OCP\DB\Exception
 	 */
 	public function setManageACL(int $id, string $mappingType, string $mappingId, bool $manageAcl): DataResponse {
@@ -171,7 +171,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function setQuota(int $id, int $quota): DataResponse {
 		$this->manager->setFolderQuota($id, $quota);
@@ -179,7 +179,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function setACL(int $id, bool $acl): DataResponse {
 		$this->manager->setFolderACL($id, $acl);
@@ -187,7 +187,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\TemplateRepo\Settings\Admin)
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 */
 	public function renameFolder(int $id, string $mountpoint): DataResponse {
 		$this->manager->renameFolder($id, $mountpoint);
@@ -389,7 +389,7 @@ class FolderController extends OCSController {
 		$x = 1;
 		$mounts  = $this->rootFolder->getMountsIn("");
 		$mounts = array_filter($mounts, function($mount){
-			if($mount->getMountType() == "templaterepo")
+			if($mount->getMountType() == "mergeodf")
 				return True;
 			else
 				return False;
@@ -424,7 +424,7 @@ class FolderController extends OCSController {
 	public function syncFolder($id)
 	{
 		$api_server = $this->manager->getAPIServer($id);
-		$url = $api_server . "/lool/templaterepo/list";
+		$url = $api_server . "/lool/mergeodf/list";
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -487,7 +487,7 @@ class FolderController extends OCSController {
 		$mtime  = $file->getMTime();
 		$baseName = str_replace("." . $fileExt, "", $fileName);
 
-		$url = $api_server . "/lool/templaterepo/upload";
+		$url = $api_server . "/lool/mergeodf/upload";
 		$tmph = tmpfile();
 		fwrite($tmph, $file_content);
 		$tmpf = stream_get_meta_data($tmph)['uri'];
@@ -528,7 +528,7 @@ class FolderController extends OCSController {
 		$mtime  = $file->getMTime();
 		$baseName = str_replace("." . $fileExt, "", $fileName);
 
-		$url = $api_server . "/lool/templaterepo/update";
+		$url = $api_server . "/lool/mergeodf/update";
 		$tmph = tmpfile();
 		fwrite($tmph, $file_content);
 		$tmpf = stream_get_meta_data($tmph)['uri'];
@@ -562,10 +562,10 @@ class FolderController extends OCSController {
 	{
 		$manager = \OC::$server->getNotificationManager();
 		$notification = $manager->createNotification();
-		$notification->setApp('templaterepo')
+		$notification->setApp('mergeodf')
 			->setUser($this->userId)
 			->setDateTime(new \DateTime())
-			->setObject('templaterepo', '1') // $type and $id
+			->setObject('mergeodf', '1') // $type and $id
 			->setSubject($type, [
 				'sync_result' => $sync_result,
 				'user' => $this->userId,

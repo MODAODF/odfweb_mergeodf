@@ -21,12 +21,12 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\templaterepo\tests\ACL;
+namespace OCA\mergeodf\tests\ACL;
 
 use OC\Files\Storage\Temporary;
 use Test\TestCase;
-use OCA\TemplateRepo\ACL\ACLManager;
-use OCA\TemplateRepo\ACL\ACLStorageWrapper;
+use OCA\MergeODF\ACL\ACLManager;
+use OCA\MergeODF\ACL\ACLStorageWrapper;
 use OCP\Constants;
 use OCP\Files\Storage\IStorage;
 

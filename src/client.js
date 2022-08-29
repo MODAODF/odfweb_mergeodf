@@ -142,9 +142,9 @@ var client = OCA.Files.App.fileList.filesClient;
 		client.addFileInfoParser((response) => {
 			const data = {}
 			const props = response.propStat[0].properties
-			const templateRepoId = props[ACL_PROPERTIES.GROUP_FOLDER_ID]
-			if (typeof templateRepoId !== 'undefined') {
-				data.templateRepoId = templateRepoId
+			const mergeOdfId = props[ACL_PROPERTIES.GROUP_FOLDER_ID]
+			if (typeof mergeOdfId !== 'undefined') {
+				data.mergeOdfId = mergeOdfId
 			}
 			const aclEnabled = props[ACL_PROPERTIES.PROPERTY_ACL_ENABLED]
 			if (typeof aclEnabled !== 'undefined') {
@@ -217,7 +217,7 @@ class AclDavService {
 					inheritedAclsById,
 					aclEnabled: fileInfo.aclEnabled,
 					aclCanManage: fileInfo.aclCanManage,
-					templateRepoId: fileInfo.templateRepoId,
+					mergeOdfId: fileInfo.mergeOdfId,
 				}
 			}
 			return null

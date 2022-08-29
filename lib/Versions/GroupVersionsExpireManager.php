@@ -21,13 +21,13 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Versions;
+namespace OCA\MergeODF\Versions;
 
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OC\Hooks\BasicEmitter;
 use OC\User\User;
-use OCA\TemplateRepo\Folder\FolderManager;
+use OCA\MergeODF\Folder\FolderManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

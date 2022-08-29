@@ -21,10 +21,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\templaterepo\tests\ACL;
+namespace OCA\mergeodf\tests\ACL;
 
-use OCA\TemplateRepo\ACL\Rule;
-use OCA\TemplateRepo\ACL\UserMapping\IUserMapping;
+use OCA\MergeODF\ACL\Rule;
+use OCA\MergeODF\ACL\UserMapping\IUserMapping;
 use Test\TestCase;
 
 class RuleTest extends TestCase {

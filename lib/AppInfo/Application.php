@@ -19,32 +19,32 @@
  *
  */
 
-namespace OCA\TemplateRepo\AppInfo;
+namespace OCA\MergeODF\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Trashbin\Expiration;
-use OCA\TemplateRepo\ACL\ACLManagerFactory;
-use OCA\TemplateRepo\ACL\RuleManager;
-use OCA\TemplateRepo\ACL\UserMapping\IUserMappingManager;
-use OCA\TemplateRepo\ACL\UserMapping\UserMappingManager;
-use OCA\TemplateRepo\BackgroundJob\ExpireGroupPlaceholder;
-use OCA\TemplateRepo\BackgroundJob\ExpireGroupTrash as ExpireGroupTrashJob;
-use OCA\TemplateRepo\BackgroundJob\ExpireGroupVersions as ExpireGroupVersionsJob;
-use OCA\TemplateRepo\CacheListener;
-use OCA\TemplateRepo\Command\ExpireGroup\ExpireGroupBase;
-use OCA\TemplateRepo\Command\ExpireGroup\ExpireGroupVersionsTrash;
-use OCA\TemplateRepo\Command\ExpireGroup\ExpireGroupVersions;
-use OCA\TemplateRepo\Command\ExpireGroup\ExpireGroupTrash;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Helper\LazyFolder;
-use OCA\TemplateRepo\Listeners\LoadAdditionalScriptsListener;
-use OCA\TemplateRepo\Mount\MountProvider;
-use OCA\TemplateRepo\Trash\TrashBackend;
-use OCA\TemplateRepo\Trash\TrashManager;
-use OCA\TemplateRepo\Versions\GroupVersionsExpireManager;
-use OCA\TemplateRepo\Versions\VersionsBackend;
-use OCA\TemplateRepo\Notification\Notifier;
+use OCA\MergeODF\ACL\ACLManagerFactory;
+use OCA\MergeODF\ACL\RuleManager;
+use OCA\MergeODF\ACL\UserMapping\IUserMappingManager;
+use OCA\MergeODF\ACL\UserMapping\UserMappingManager;
+use OCA\MergeODF\BackgroundJob\ExpireGroupPlaceholder;
+use OCA\MergeODF\BackgroundJob\ExpireGroupTrash as ExpireGroupTrashJob;
+use OCA\MergeODF\BackgroundJob\ExpireGroupVersions as ExpireGroupVersionsJob;
+use OCA\MergeODF\CacheListener;
+use OCA\MergeODF\Command\ExpireGroup\ExpireGroupBase;
+use OCA\MergeODF\Command\ExpireGroup\ExpireGroupVersionsTrash;
+use OCA\MergeODF\Command\ExpireGroup\ExpireGroupVersions;
+use OCA\MergeODF\Command\ExpireGroup\ExpireGroupTrash;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Helper\LazyFolder;
+use OCA\MergeODF\Listeners\LoadAdditionalScriptsListener;
+use OCA\MergeODF\Mount\MountProvider;
+use OCA\MergeODF\Trash\TrashBackend;
+use OCA\MergeODF\Trash\TrashManager;
+use OCA\MergeODF\Versions\GroupVersionsExpireManager;
+use OCA\MergeODF\Versions\VersionsBackend;
+use OCA\MergeODF\Notification\Notifier;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -68,7 +68,7 @@ use OC\Files\Filesystem;
 
 class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
-		parent::__construct('templaterepo', $urlParams);
+		parent::__construct('mergeodf', $urlParams);
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -82,7 +82,7 @@ class Application extends App implements IBootstrap {
 				return $c->get('GroupAppFolder');
 			};
 			$config = $c->get(IConfig::class);
-			$allowRootShare = $config->getAppValue('templaterepo', 'allow_root_share', 'true') === 'true';
+			$allowRootShare = $config->getAppValue('mergeodf', 'allow_root_share', 'true') === 'true';
 
 			return new MountProvider(
 				$c->getServer()->getGroupManager(),
@@ -94,7 +94,7 @@ class Application extends App implements IBootstrap {
 				$c->get(ISession::class),
 				$c->get(IMountProviderCollection::class),
 				$c->get(IDBConnection::class),
-				$c->get(ICacheFactory::class)->createLocal("templaterepo"),
+				$c->get(ICacheFactory::class)->createLocal("mergeodf"),
 				$allowRootShare
 			);
 		});
@@ -155,7 +155,7 @@ class Application extends App implements IBootstrap {
 			return new ExpireGroupBase();
 		});
 
-		$context->registerService(\OCA\TemplateRepo\BackgroundJob\ExpireGroupVersions::class, function (IAppContainer $c) {
+		$context->registerService(\OCA\MergeODF\BackgroundJob\ExpireGroupVersions::class, function (IAppContainer $c) {
 			if (interface_exists(\OCA\Files_Versions\Versions\IVersionBackend::class)) {
 				return new ExpireGroupVersionsJob(
 					$c->get(GroupVersionsExpireManager::class),
@@ -166,7 +166,7 @@ class Application extends App implements IBootstrap {
 			return new ExpireGroupPlaceholder($c->get(ITimeFactory::class));
 		});
 
-		$context->registerService(\OCA\TemplateRepo\BackgroundJob\ExpireGroupTrash::class, function (IAppContainer $c) {
+		$context->registerService(\OCA\MergeODF\BackgroundJob\ExpireGroupTrash::class, function (IAppContainer $c) {
 			if (interface_exists(\OCA\Files_Trashbin\Trash\ITrashBackend::class)) {
 				return new ExpireGroupTrashJob(
 					$c->get(TrashBackend::class),
@@ -209,12 +209,12 @@ class Application extends App implements IBootstrap {
 			$rootfolder->listen('\OC\Files', 'preCreate', function ($k) {
 				$method = \OC::$server->getRequest()->getMethod();
 				$mount_type = $k->getParent()->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "MKCOL" && $mount_type == "templaterepo") {
+				if ($method == "MKCOL" && $mount_type == "mergeodf") {
 					throw new \OC\ServerNotAvailableException;
 				}
 
 				$ext = strtolower(pathinfo($k->getPath(), PATHINFO_EXTENSION));
-				if ($mount_type == "templaterepo" && ($ext != "ott" && $ext != "ots" && $ext != "otp")) {
+				if ($mount_type == "mergeodf" && ($ext != "ott" && $ext != "ots" && $ext != "otp")) {
 					throw new \OC\ServerNotAvailableException;
 				}
 			});
@@ -223,7 +223,7 @@ class Application extends App implements IBootstrap {
 			$rootfolder->listen('\OC\Files', 'preCopy', function ($k) {
 				$method = \OC::$server->getRequest()->getMethod();
 				$mount_type = $k->getParent()->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "COPY" && $mount_type == "templaterepo") {
+				if ($method == "COPY" && $mount_type == "mergeodf") {
 					// Create a sabre server instance to get the information for the request
 					$tmpuri = "/remote.php/dav";
 					$request = \OC::$server->getRequest();
@@ -247,7 +247,7 @@ class Application extends App implements IBootstrap {
 				$destPath = $dest['destination'];
 				$destDir = dirname($destPath);
 				$mount_type = $tmps->server->tree->getNodeForPath($destDir)->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "MOVE" && $mount_type == "templaterepo") {
+				if ($method == "MOVE" && $mount_type == "mergeodf") {
 					// Create a sabre server instance to get the information for the request
 					if ($k->getFileInfo()->getType() == "dir") {
 						throw new \OC\ServerNotAvailableException;
@@ -260,7 +260,7 @@ class Application extends App implements IBootstrap {
 			$rootfolder->listen('\OC\Files', 'postCreate', function ($k) {
 				$fileInfo = $k->getFileInfo();
 				if (
-					$fileInfo->getMountPoint()->getMountType() == "templaterepo" &&
+					$fileInfo->getMountPoint()->getMountType() == "mergeodf" &&
 					$fileInfo->getData()->getData()['type'] == "file"
 				) {
 					$this->uploadFile($fileInfo);
@@ -271,7 +271,7 @@ class Application extends App implements IBootstrap {
 			$rootfolder->listen('\OC\Files', 'postDelete', function ($k) {
 				$fileInfo = $k->getFileInfo();
 				if (
-					$fileInfo->getMountPoint()->getMountType() == "templaterepo" &&
+					$fileInfo->getMountPoint()->getMountType() == "mergeodf" &&
 					$fileInfo->getData()->getData()['type'] == "file"
 				) {
 					$this->deleteFile($fileInfo);
@@ -298,7 +298,7 @@ class Application extends App implements IBootstrap {
 			$rootfolder->listen('\OC\Files', 'postUpdate', function ($k) {
 				$fileInfo = $k;
 				if (
-					$fileInfo->getMountPoint()->getMountType() == "templaterepo"
+					$fileInfo->getMountPoint()->getMountType() == "mergeodf"
 				) {
 					$this->updateFile($fileInfo);
 				}
@@ -312,12 +312,12 @@ class Application extends App implements IBootstrap {
 		});
 
 		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'templaterepolist',
-			'appname' => 'templaterepo',
+			'id' => 'mergeodflist',
+			'appname' => 'mergeodf',
 			'script' => 'list.php',
 			'order' => 25,
 			'name' => "範本中心",
-			'icon' => "templaterepo"
+			'icon' => "mergeodf"
 		]);
 	}
 
@@ -339,7 +339,7 @@ class Application extends App implements IBootstrap {
 		$fileType = $fileInfo->getMimetype();
 		$fileName = $fileInfo->getName();
 		$fileExt = $fileInfo->getExtension();
-		$folderId = $fileInfo->getMountPoint()->getFolderId(); // getFolderId is in TemplateRepo's GroupMounPoint
+		$folderId = $fileInfo->getMountPoint()->getFolderId(); // getFolderId is in MergeODF's GroupMounPoint
 		$file_content = $fileInfo->getStorage()->file_get_contents($filePath);
 		$api_server = $this->getFolderManager()->getAPIServer($folderId);
 		$path_hash  = $fileInfo->getData()->getData()['path_hash'];
@@ -348,7 +348,7 @@ class Application extends App implements IBootstrap {
 		$cid = explode("/", $cid)[3];
 		$baseName = str_replace("." . $fileExt, "", $fileName);
 
-		$url = $api_server . "/lool/templaterepo/upload";
+		$url = $api_server . "/lool/mergeodf/upload";
 		$tmph = tmpfile();
 		fwrite($tmph, $file_content);
 		$tmpf = stream_get_meta_data($tmph)['uri'];
@@ -381,12 +381,12 @@ class Application extends App implements IBootstrap {
 
 	private function deleteFile(\OC\Files\FileInfo $fileInfo) {
 		$fileExt = $fileInfo->getExtension();
-		$folderId = $fileInfo->getMountPoint()->getFolderId(); // etFolderId is in TemplateRepo's GroupMounPoint
+		$folderId = $fileInfo->getMountPoint()->getFolderId(); // etFolderId is in MergeODF's GroupMounPoint
 		$fileName = $fileInfo->getName();
 		$api_server = $this->getFolderManager()->getAPIServer($folderId);
 		$path_hash  = $fileInfo->getData()->getData()['path_hash'];
 
-		$url = $api_server . "/lool/templaterepo/delete";
+		$url = $api_server . "/lool/mergeodf/delete";
 		$fields = array(
 			'endpt' => $path_hash,
 			'extname' => $fileExt,
@@ -415,7 +415,7 @@ class Application extends App implements IBootstrap {
 		$fileType = $fileInfo->getMimetype();
 		$fileName = $fileInfo->getName();
 		$fileExt = $fileInfo->getExtension();
-		$folderId = $fileInfo->getMountPoint()->getFolderId(); // getFolderId is in TemplateRepo's GroupMounPoint
+		$folderId = $fileInfo->getMountPoint()->getFolderId(); // getFolderId is in MergeODF's GroupMounPoint
 		$file_content = $fileInfo->getStorage()->file_get_contents($filePath);
 		$api_server = $this->getFolderManager()->getAPIServer($folderId);
 		$path_hash  = $fileInfo->getData()->getData()['path_hash'];
@@ -423,7 +423,7 @@ class Application extends App implements IBootstrap {
 		$cid = $fileInfo->getMountPoint()->getMountPoint();
 		$cid = explode("/", $cid)[3];
 
-		$url = $api_server . "/lool/templaterepo/update";
+		$url = $api_server . "/lool/mergeodf/update";
 		$tmph = tmpfile();
 		fwrite($tmph, $file_content);
 		$tmpf = stream_get_meta_data($tmph)['uri'];
@@ -457,10 +457,10 @@ class Application extends App implements IBootstrap {
 		$user = $this->getContainer()->getServer()->getSession()->get('user_id');
 		$manager = $this->getContainer()->getServer()->getNotificationManager();
 		$notification = $manager->createNotification();
-		$notification->setApp('templaterepo')
+		$notification->setApp('mergeodf')
 			->setUser($user)
 			->setDateTime(new \DateTime())
-			->setObject('templaterepo', '1') // $type and $id
+			->setObject('mergeodf', '1') // $type and $id
 			->setSubject($type, [
 				'filename' => $filename,
 				'user' => $user,

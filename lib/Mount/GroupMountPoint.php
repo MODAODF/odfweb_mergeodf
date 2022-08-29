@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Mount;
+namespace OCA\MergeODF\Mount;
 
 use OC\Files\Mount\MountPoint;
 
@@ -33,7 +33,7 @@ class GroupMountPoint extends MountPoint {
 	}
 
 	public function getMountType() {
-		return 'templaterepo';
+		return 'mergeodf';
 	}
 
 	public function getOption($name, $default) {
@@ -52,6 +52,6 @@ class GroupMountPoint extends MountPoint {
 	}
 
 	public function getSourcePath(): string {
-		return '/__templaterepo/' . $this->getFolderId();
+		return '/__MergeODF/' . $this->getFolderId();
 	}
 }

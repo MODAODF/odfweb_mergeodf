@@ -21,12 +21,12 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Versions;
+namespace OCA\MergeODF\Versions;
 
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionBackend;
-use OCA\TemplateRepo\Mount\GroupMountPoint;
-use OCA\TemplateRepo\Mount\MountProvider;
+use OCA\MergeODF\Mount\GroupMountPoint;
+use OCA\MergeODF\Mount\MountProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -64,7 +64,7 @@ class VersionsBackend implements IVersionBackend {
 				$versionsFolder = $this->getVersionsFolder($mount->getFolderId())->get((string)$file->getId());
 				$versions = array_map(function (Node $versionFile) use ($file, $user, $folderId): GroupVersion {
 					if ($versionFile instanceof Folder) {
-						$this->logger->error('Found an unexpected subfolder inside the templaterepo version folder.');
+						$this->logger->error('Found an unexpected subfolder inside the mergeodf version folder.');
 					}
 					return new GroupVersion(
 						(int)$versionFile->getName(),
@@ -150,7 +150,7 @@ class VersionsBackend implements IVersionBackend {
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$mount = $sourceFile->getMountPoint();
 		if (!($mount instanceof GroupMountPoint)) {
-			throw new \LogicException('Trying to getVersionFile from a file not in a mounted template repo');
+			throw new \LogicException('Trying to getVersionFile from a file not in a mounted mergeodf');
 		}
 		try {
 			/** @var Folder $versionsFolder */

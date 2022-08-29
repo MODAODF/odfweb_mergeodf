@@ -21,13 +21,13 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\templaterepo\tests\ACL;
+namespace OCA\mergeodf\tests\ACL;
 
 use OC\Files\Storage\Temporary;
-use OCA\TemplateRepo\ACL\Rule;
-use OCA\TemplateRepo\ACL\RuleManager;
-use OCA\TemplateRepo\ACL\UserMapping\IUserMappingManager;
-use OCA\TemplateRepo\ACL\UserMapping\UserMapping;
+use OCA\MergeODF\ACL\Rule;
+use OCA\MergeODF\ACL\RuleManager;
+use OCA\MergeODF\ACL\UserMapping\IUserMappingManager;
+use OCA\MergeODF\ACL\UserMapping\UserMapping;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\IUser;

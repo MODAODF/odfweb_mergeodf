@@ -13,7 +13,7 @@ const render = (Component) => {
 		<AppContainer>
 			<Component/>
 		</AppContainer>,
-		document.getElementById('templaterepo-root')
+		document.getElementById('mergeodf-root')
 	);
 };
 

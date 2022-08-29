@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Migration;
+namespace OCA\MergeODF\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;

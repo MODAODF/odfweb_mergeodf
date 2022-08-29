@@ -21,11 +21,11 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
 use OC\Core\Command\Base;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Mount\MountProvider;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Mount\MountProvider;
 use OCP\Files\IRootFolder;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

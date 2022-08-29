@@ -21,14 +21,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
-use OCA\TemplateRepo\ACL\ACLManagerFactory;
-use OCA\TemplateRepo\ACL\Rule;
-use OCA\TemplateRepo\ACL\RuleManager;
-use OCA\TemplateRepo\ACL\UserMapping\UserMapping;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Mount\MountProvider;
+use OCA\MergeODF\ACL\ACLManagerFactory;
+use OCA\MergeODF\ACL\Rule;
+use OCA\MergeODF\ACL\RuleManager;
+use OCA\MergeODF\ACL\UserMapping\UserMapping;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Mount\MountProvider;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
@@ -67,8 +67,8 @@ class ACL extends FolderCommand {
 
 	protected function configure() {
 		$this
-			->setName('templaterepo:permissions')
-			->setDescription('Configure advanced permissions for a configured template repo')
+			->setName('mergeodf:permissions')
+			->setDescription('Configure advanced permissions for a configured mergeodf')
 			->addArgument('folder_id', InputArgument::REQUIRED, 'Id of the folder to configure')
 			->addOption('enable', 'e', InputOption::VALUE_NONE, 'Enable advanced permissions for the folder')
 			->addOption('disable', 'd', InputOption::VALUE_NONE, 'Disable advanced permissions for the folder')

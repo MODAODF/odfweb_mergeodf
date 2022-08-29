@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
 use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,13 +34,13 @@ class ExpireGroupVersionsPlaceholder extends Base {
 
 	protected function configure() {
 		$this
-			->setName('templaterepo:expire')
-			->setDescription('Trigger expiry of versions for files stored in template repo');
+			->setName('mergeodf:expire')
+			->setDescription('Trigger expiry of versions for files stored in mergeodf');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$output->writeln('<error>templaterepo version handling is only supported with Nextcloud 15 and up</error>');
+		$output->writeln('<error>mergeodf version handling is only supported with Nextcloud 15 and up</error>');
 		return 0;
 	}
 }

@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Mount;
+namespace OCA\MergeODF\Mount;
 
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;

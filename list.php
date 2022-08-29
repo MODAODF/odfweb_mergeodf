@@ -29,13 +29,13 @@ $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files'
 $isIE = \OCP\Util::isIE();
 
 // renders the controls and table headers template
-$tmpl = new OCP\Template('templaterepo', 'list', '');
+$tmpl = new OCP\Template('mergeodf', 'list', '');
 
 /*Add self resource
    css: \OC_Util::addStyle
    js : \OC_Util::addScript
 */
-OC_Util::addStyle('templaterepo', "merged", true);
+OC_Util::addStyle('mergeodf', "merged", true);
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);

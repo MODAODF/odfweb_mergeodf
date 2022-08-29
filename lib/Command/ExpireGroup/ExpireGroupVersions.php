@@ -22,15 +22,15 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command\ExpireGroup;
+namespace OCA\MergeODF\Command\ExpireGroup;
 
 use OCA\Files_Versions\Versions\IVersion;
-use OCA\TemplateRepo\Versions\GroupVersionsExpireManager;
+use OCA\MergeODF\Versions\GroupVersionsExpireManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Trigger expiry of versions for files stored in template repo.
+ * Trigger expiry of versions for files stored in mergeodf.
  */
 class ExpireGroupVersions extends ExpireGroupBase {
 	protected GroupVersionsExpireManager $expireManager;
@@ -45,8 +45,8 @@ class ExpireGroupVersions extends ExpireGroupBase {
 	protected function configure() {
 		parent::configure();
 		$this
-			->setName('templaterepo:expire')
-			->setDescription('Trigger expiry of versions for files stored in template repo');
+			->setName('mergeodf:expire')
+			->setDescription('Trigger expiry of versions for files stored in mergeodf');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {

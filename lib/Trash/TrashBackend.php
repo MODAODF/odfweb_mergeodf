@@ -19,17 +19,17 @@
  *
  */
 
-namespace OCA\TemplateRepo\Trash;
+namespace OCA\MergeODF\Trash;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Trash\ITrashBackend;
 use OCA\Files_Trashbin\Trash\ITrashItem;
-use OCA\TemplateRepo\ACL\ACLManagerFactory;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Mount\TemplateRepoStorage;
-use OCA\TemplateRepo\Mount\MountProvider;
-use OCA\TemplateRepo\Versions\VersionsBackend;
+use OCA\MergeODF\ACL\ACLManagerFactory;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Mount\MergeODFStorage;
+use OCA\MergeODF\Mount\MountProvider;
+use OCA\MergeODF\Versions\VersionsBackend;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\Node;
@@ -98,7 +98,7 @@ class TrashBackend implements ITrashBackend {
 				$trashItem->getTrashPath() . '/' . $node->getName(),
 				$node,
 				$user,
-				$trashItem->getTemplateRepoMountPoint()
+				$trashItem->getMergeODFMountPoint()
 			);
 		}, $content);
 	}
@@ -109,7 +109,7 @@ class TrashBackend implements ITrashBackend {
 	 */
 	public function restoreItem(ITrashItem $item) {
 		if (!($item instanceof GroupTrashItem)) {
-			throw new \LogicException('Trying to restore normal trash item in template repo trash backend');
+			throw new \LogicException('Trying to restore normal trash item in mergeodf trash backend');
 		}
 		$user = $item->getUser();
 		[, $folderId] = explode('/', $item->getTrashPath());
@@ -176,7 +176,7 @@ class TrashBackend implements ITrashBackend {
 	 */
 	public function removeItem(ITrashItem $item) {
 		if (!($item instanceof GroupTrashItem)) {
-			throw new \LogicException('Trying to remove normal trash item in template repo trash backend');
+			throw new \LogicException('Trying to remove normal trash item in mergeodf trash backend');
 		}
 		$user = $item->getUser();
 		[, $folderId] = explode('/', $item->getTrashPath());
@@ -198,8 +198,8 @@ class TrashBackend implements ITrashBackend {
 	}
 
 	public function moveToTrash(IStorage $storage, string $internalPath): bool {
-		if ($storage->instanceOfStorage(TemplateRepoStorage::class) && $storage->isDeletable($internalPath)) {
-			/** @var TemplateRepoStorage|Jail $storage */
+		if ($storage->instanceOfStorage(MergeODFStorage::class) && $storage->isDeletable($internalPath)) {
+			/** @var MergeODFStorage|Jail $storage */
 			$name = basename($internalPath);
 			$fileEntry = $storage->getCache()->get($internalPath);
 			$folderId = $storage->getFolderId();
@@ -215,7 +215,7 @@ class TrashBackend implements ITrashBackend {
 					$trashStorage->getCache()->moveFromCache($unJailedStorage->getCache(), $unJailedInternalPath, $targetInternalPath);
 				}
 			} else {
-				throw new \Exception("Failed to move templaterepo item to trash");
+				throw new \Exception("Failed to move mergeodf item to trash");
 			}
 			return true;
 		} else {
@@ -245,15 +245,15 @@ class TrashBackend implements ITrashBackend {
 
 	private function userHasAccessToPath(IUser $user, string $path, int $permission = Constants::PERMISSION_READ): bool {
 		$activePermissions = $this->aclManagerFactory->getACLManager($user)
-			->getACLPermissionsForPath('__templaterepo/' . ltrim($path, '/'));
+			->getACLPermissionsForPath('__MergeODF/' . ltrim($path, '/'));
 		return (bool)($activePermissions & $permission);
 	}
 
 	private function getNodeForTrashItem(IUser $user, ITrashItem $trashItem): ?Node {
 		[, $folderId, $path] = explode('/', $trashItem->getTrashPath(), 3);
 		$folders = $this->folderManager->getFoldersForUser($user);
-		foreach ($folders as $templateRepo) {
-			if ($templateRepo['folder_id'] === (int)$folderId) {
+		foreach ($folders as $mergeOdf) {
+			if ($mergeOdf['folder_id'] === (int)$folderId) {
 				$trashRoot = $this->getTrashFolder((int)$folderId);
 				try {
 					$node = $trashRoot->get($path);

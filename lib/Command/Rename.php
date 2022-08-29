@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,8 +30,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Rename extends FolderCommand {
 	protected function configure() {
 		$this
-			->setName('templaterepo:rename')
-			->setDescription('Rename template repo')
+			->setName('mergeodf:rename')
+			->setDescription('Rename mergeodf')
 			->addArgument('folder_id', InputArgument::REQUIRED, 'Id of the folder to rename')
 			->addArgument('name', InputArgument::REQUIRED, 'New value name of the folder');
 		parent::configure();

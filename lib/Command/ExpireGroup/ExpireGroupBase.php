@@ -21,14 +21,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command\ExpireGroup;
+namespace OCA\MergeODF\Command\ExpireGroup;
 
 use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Base class for the template repo expiration commands.
+ * Base class for the mergeodf expiration commands.
  */
 class ExpireGroupBase extends Base {
 	public function __construct() {
@@ -37,13 +37,13 @@ class ExpireGroupBase extends Base {
 
 	protected function configure() {
 		$this
-			->setName('templaterepo:expire')
-			->setDescription('Trigger expiration for files stored in template repo (trash and versions). Currently disabled.');
+			->setName('mergeodf:expire')
+			->setDescription('Trigger expiration for files stored in mergeodf (trash and versions). Currently disabled.');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$output->writeln('<error>templaterepo expiration handling is currently disabled because there is nothing to expire. Enable the "Delete Files" or/and "Versions" app to enable this feature.</error>');
+		$output->writeln('<error>mergeodf expiration handling is currently disabled because there is nothing to expire. Enable the "Delete Files" or/and "Versions" app to enable this feature.</error>');
 		return 0;
 	}
 }

@@ -1,8 +1,8 @@
-<?php script($_['appId'], ['templaterepo-settings']); ?>
+<?php script($_['appId'], ['mergeodf-settings']); ?>
 <div id="searchresults" style="display: none"></div>
-<div id="templaterepo-wrapper">
+<div id="mergeodf-wrapper">
 	<h2>
-		<?php p($l->t('Template Repo')); ?>
+		<?php p($l->t('Merge ODF')); ?>
 	</h2>
-	<div id="templaterepo-root"/>
+	<div id="mergeodf-root"/>
 </div>

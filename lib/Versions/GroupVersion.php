@@ -21,7 +21,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Versions;
+namespace OCA\MergeODF\Versions;
 
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\Version;

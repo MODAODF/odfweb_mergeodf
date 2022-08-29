@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Trash;
+namespace OCA\MergeODF\Trash;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;

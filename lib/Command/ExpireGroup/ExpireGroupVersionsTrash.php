@@ -21,11 +21,11 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command\ExpireGroup;
+namespace OCA\MergeODF\Command\ExpireGroup;
 
 use OCA\Files_Trashbin\Expiration;
-use OCA\TemplateRepo\Trash\TrashBackend;
-use OCA\TemplateRepo\Versions\GroupVersionsExpireManager;
+use OCA\MergeODF\Trash\TrashBackend;
+use OCA\MergeODF\Versions\GroupVersionsExpireManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -46,8 +46,8 @@ class ExpireGroupVersionsTrash extends ExpireGroupVersions {
 	protected function configure() {
 		parent::configure();
 		$this
-			->setName('templaterepo:expire')
-			->setDescription('Trigger expiry of versions and trashbin for files stored in template repo');
+			->setName('mergeodf:expire')
+			->setDescription('Trigger expiry of versions and trashbin for files stored in mergeodf');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {

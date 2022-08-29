@@ -21,10 +21,10 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Command;
+namespace OCA\MergeODF\Command;
 
 use OC\Core\Command\Base;
-use OCA\TemplateRepo\Folder\FolderManager;
+use OCA\MergeODF\Folder\FolderManager;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
@@ -53,8 +53,8 @@ class ListCommand extends Base {
 
 	protected function configure() {
 		$this
-			->setName('templaterepo:list')
-			->setDescription('List the configured template repo');
+			->setName('mergeodf:list')
+			->setDescription('List the configured mergeodf');
 		parent::configure();
 	}
 

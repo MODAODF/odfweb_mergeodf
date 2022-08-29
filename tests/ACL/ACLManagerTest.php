@@ -21,12 +21,12 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\templaterepo\tests\ACL;
+namespace OCA\mergeodf\tests\ACL;
 
-use OCA\TemplateRepo\ACL\ACLManager;
-use OCA\TemplateRepo\ACL\Rule;
-use OCA\TemplateRepo\ACL\RuleManager;
-use OCA\TemplateRepo\ACL\UserMapping\IUserMapping;
+use OCA\MergeODF\ACL\ACLManager;
+use OCA\MergeODF\ACL\Rule;
+use OCA\MergeODF\ACL\RuleManager;
+use OCA\MergeODF\ACL\UserMapping\IUserMapping;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;

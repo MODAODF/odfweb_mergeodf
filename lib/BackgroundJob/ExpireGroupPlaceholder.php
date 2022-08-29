@@ -22,7 +22,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\BackgroundJob;
+namespace OCA\MergeODF\BackgroundJob;
 
 use OCP\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;

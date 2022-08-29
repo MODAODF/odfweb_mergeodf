@@ -23,7 +23,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\Helper;
+namespace OCA\MergeODF\Helper;
 
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -40,9 +40,9 @@ class LazyFolder implements Folder {
 	private function getFolder(): Folder {
 		if ($this->folder === null) {
 			try {
-				$this->folder = $this->rootFolder->get('__templaterepo');
+				$this->folder = $this->rootFolder->get('__MergeODF');
 			} catch (NotFoundException $e) {
-				$this->folder = $this->rootFolder->newFolder('__templaterepo');
+				$this->folder = $this->rootFolder->newFolder('__MergeODF');
 			}
 		}
 

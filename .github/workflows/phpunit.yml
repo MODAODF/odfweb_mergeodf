@@ -8,7 +8,7 @@ on:
       - stable*
 
 env:
-  APP_NAME: templaterepo
+  APP_NAME: mergeodf
 
 jobs:
   php:

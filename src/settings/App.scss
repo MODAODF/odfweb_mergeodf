@@ -1,13 +1,13 @@
-#templaterepo-wrapper {
+#mergeodf-wrapper {
 	padding: 30px;
 }
 
-#templaterepo-react-root, #templaterepo-root {
+#mergeodf-react-root, #mergeodf-root {
 	height: 100%;
 	min-height: calc(100vh - 50px);
 }
 
-#templaterepo-react-root {
+#mergeodf-react-root {
 
 	&, & > table {
 		width: 100%;

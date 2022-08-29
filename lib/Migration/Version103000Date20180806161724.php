@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\TemplateRepo\Migration;
+namespace OCA\MergeODF\Migration;
 
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;

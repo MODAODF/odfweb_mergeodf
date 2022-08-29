@@ -21,13 +21,13 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\TemplateRepo\DAV;
+namespace OCA\MergeODF\DAV;
 
 use OCA\DAV\Connector\Sabre\Node;
-use OCA\TemplateRepo\ACL\Rule;
-use OCA\TemplateRepo\ACL\RuleManager;
-use OCA\TemplateRepo\Folder\FolderManager;
-use OCA\TemplateRepo\Mount\GroupMountPoint;
+use OCA\MergeODF\ACL\Rule;
+use OCA\MergeODF\ACL\RuleManager;
+use OCA\MergeODF\Folder\FolderManager;
+use OCA\MergeODF\Mount\GroupMountPoint;
 use OCP\Constants;
 use OCP\IUser;
 use OCP\IUserSession;

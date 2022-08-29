@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './FolderUsers.css';
+import './FolderUsers.scss';
 import { SyntheticEvent } from "react";
 import { Group, User } from "./Api";
 import Select from 'react-select'
@@ -65,10 +65,10 @@ export function FolderUsers({ users, allUsers = [], onAddUser, removeUser, edit,
 			onClick={event => event.stopPropagation()}>
 			<thead>
 				<tr>
-					<th>{t('templaterepo', 'User')}</th>
-					<th>{t('templaterepo', 'Write')}</th>
-					<th>{t('templaterepo', 'Share')}</th>
-					<th>{t('templaterepo', 'Delete')}</th>
+					<th>{t('mergeodf', 'User')}</th>
+					<th>{t('mergeodf', 'Write')}</th>
+					<th>{t('mergeodf', 'Share')}</th>
+					<th>{t('mergeodf', 'Delete')}</th>
 					<th />
 				</tr>
 			</thead>
@@ -111,7 +111,7 @@ interface UserSelectProps {
 function UserSelect({ allUsers, onChange }: UserSelectProps) {
 	if (allUsers.length === 0) {
 		return <div>
-			<p>{t('templaterepo', 'No other users available')}</p>
+			<p>{t('mergeodf', 'No other users available')}</p>
 		</div>;
 	}
 	const options = allUsers.map(user => {
@@ -123,10 +123,10 @@ function UserSelect({ allUsers, onChange }: UserSelectProps) {
 
 	return <Select
 		onChange={option => {
-			onChange && onChange(option.value)
+			onChange && option && onChange(option.value)
 		}}
 		options={options}
-		placeholder={t('templaterepo', 'Add user')}
+		placeholder={t('mergeodf', 'Add user')}
 		styles={{
 			input: (provided) => ({
 				...provided,

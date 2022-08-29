@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\TemplateRepo\Notification;
+namespace OCA\MergeODF\Notification;
 
 use OCP\Notification\INotifier;
 use OCP\Notification\INotification;

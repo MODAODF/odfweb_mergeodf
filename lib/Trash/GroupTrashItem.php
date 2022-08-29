@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\TemplateRepo\Trash;
+namespace OCA\MergeODF\Trash;
 
 use OCA\Files_Trashbin\Trash\ITrashBackend;
 use OCA\Files_Trashbin\Trash\TrashItem;
@@ -46,11 +46,11 @@ class GroupTrashItem extends TrashItem {
 		return substr_count($this->getTrashPath(), '/') === 2;
 	}
 
-	public function getTemplateRepoMountPoint(): string {
+	public function getMergeODFMountPoint(): string {
 		return $this->mountPoint;
 	}
 
 	public function getTitle(): string {
-		return $this->getTemplateRepoMountPoint() . '/' . $this->getOriginalLocation();
+		return $this->getMergeODFMountPoint() . '/' . $this->getOriginalLocation();
 	}
 }

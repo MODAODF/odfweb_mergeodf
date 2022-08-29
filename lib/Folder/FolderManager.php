@@ -19,11 +19,11 @@
  *
  */
 
-namespace OCA\TemplateRepo\Folder;
+namespace OCA\MergeODF\Folder;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Node\Node;
-use OCA\TemplateRepo\Mount\GroupMountPoint;
+use OCA\MergeODF\Mount\GroupMountPoint;
 use OCP\Constants;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -89,13 +89,13 @@ class FolderManager {
 	/**
 	 * @throws Exception
 	 */
-	private function getTemplateRepoRootId(int $rootStorageId): int {
+	private function getMergeODFRootId(int $rootStorageId): int {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('fileid')
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($rootStorageId)))
-			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5('__templaterepo'))));
+			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5('__MergeODF'))));
 
 		return (int)$query->executeQuery()->fetchOne();
 	}
@@ -104,7 +104,7 @@ class FolderManager {
 		$query->leftJoin('f', 'filecache', 'c', $query->expr()->andX(
 			// concat with empty string to work around missing cast to string
 			$query->expr()->eq('name', $query->func()->concat('f.folder_id', $query->expr()->literal(""))),
-			$query->expr()->eq('parent', $query->createNamedParameter($this->getTemplateRepoRootId($rootStorageId)))
+			$query->expr()->eq('parent', $query->createNamedParameter($this->getMergeODFRootId($rootStorageId)))
 		));
 	}
 
@@ -339,7 +339,7 @@ class FolderManager {
 
 	/**
 	 * Check if the user is able to configure the advanced folder permissions. This
-	 * is the case if the user is an admin, has admin permissions for the template repo
+	 * is the case if the user is an admin, has admin permissions for the mergeodf
 	 * app or is member of a group that can manage permissions for the specific folder.
 	 * @throws Exception
 	 */
@@ -353,7 +353,7 @@ class FolderManager {
 		if (class_exists('\OC\Settings\AuthorizedGroupMapper')) {
 			$authorizedGroupMapper = \OC::$server->get('\OC\Settings\AuthorizedGroupMapper');
 			$settingClasses = $authorizedGroupMapper->findAllClassesForUser($user);
-			if (in_array('OCA\TemplateRepo\Settings\Admin', $settingClasses, true)) {
+			if (in_array('OCA\MergeODF\Settings\Admin', $settingClasses, true)) {
 				return true;
 			}
 		}
@@ -795,7 +795,7 @@ class FolderManager {
 	 */
 	public function getFoldersForUserHidden(IUser $user, $rootStorageId = 0)
 	{
-		
+
 		$groups = $this->groupManager->getUserGroupIds($user);
 		$folders = array_reduce($groups, function ($folders, $groupId) use ($rootStorageId) {
 			return array_merge($folders, $this->getFoldersForGroup($groupId, $rootStorageId));
@@ -823,7 +823,7 @@ class FolderManager {
 				$mergedFolders[$id] = $folder;
 			}
 		}
-		
+
 		return array_values($mergedFolders);
 	}
 
