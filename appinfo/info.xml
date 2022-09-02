@@ -61,4 +61,13 @@ Note: Encrypting the contents of mergeodf is currently not supported.]]></descri
 	<versions>
 		<backend for="OCA\MergeODF\Mount\MergeODFStorage">OCA\MergeODF\Versions\VersionsBackend</backend>
 	</versions>
+
+	<navigations>
+        <navigation>
+            <name>MergeODF</name>
+            <route>mergeodf.view.index</route>
+            <order>1</order>
+        </navigation>
+    </navigations>
+
 </info>

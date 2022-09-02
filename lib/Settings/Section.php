@@ -72,6 +72,6 @@ class Section implements IIconSection {
 	 * @return string
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('mergeodf', 'app-icon.svg');
+		return $this->url->imagePath('mergeodf', 'app.svg');
 	}
 }

@@ -193,10 +193,19 @@ class Application extends App implements IBootstrap {
 		});
 
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = $container->query(IEventDispatcher::class);
+		$dispatcher =  $this->getContainer()->query(IEventDispatcher::class);
 		$dispatcher->addServiceListener(LoadSelfSidebar::class, LoadSelfSidebarListener::class);
 
 		$context->registerServiceAlias(IUserMappingManager::class, UserMappingManager::class);
+
+		$dispatcher = $this->getContainer()->query(IEventDispatcher::class);
+		$dispatcher->addListener('OCA\Files::loadAdditionalScripts', function() {
+			\OCP\Util::addScript('mergeodf', 'mergeodf-files');
+		});
+		$dispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () {
+			\OCP\Util::addScript('mergeodf', 'mergeodf-files');
+		});
+
 	}
 
 	public function boot(IBootContext $context): void {
@@ -318,14 +327,20 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'mergeodflist',
-			'appname' => 'mergeodf',
-			'script' => 'list.php',
-			'order' => 25,
-			'name' => "範本中心",
-			'icon' => "mergeodf"
-		]);
+		$user = \OC::$server->getUserSession()->getUser();
+		if ($user instanceof \OC\User\User){
+			$folders = $this->getFolderManager()->getFoldersForUserHidden($user);
+			foreach($folders as $folder) {
+				\OCA\MergeODF\App::getNavigationManager()->add([
+					'id' => 'mergeodflist-'.$folder['folder_id'],
+					'appname' => 'mergeodf',
+					'script' => 'app_list.php',
+					'order' => 5,
+					'name' => $folder['mount_point'], // "範本中心",
+					'icon' => "mergeodf"
+				]);
+			}
+		}
 	}
 
 	public function getMountProvider(): MountProvider {
