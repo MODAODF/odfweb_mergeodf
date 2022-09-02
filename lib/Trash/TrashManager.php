@@ -76,7 +76,7 @@ class TrashManager {
 
 	public function emptyTrashbin(int $folderId): void {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete('template_repo_trash')
+		$query->delete('merge_odf_trash')
 			->where($query->expr()->eq('folder_id', $query->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}

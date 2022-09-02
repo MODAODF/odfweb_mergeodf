@@ -170,7 +170,7 @@ export default {
 		Avatar, Multiselect, AclStateButton,
 	},
 	props: {
-		fileModel: {
+		fileInfo: {
 			type: Object,
 			required: true,
 		},
@@ -180,7 +180,7 @@ export default {
 			aclEnabled: false,
 			aclCanManage: false,
 			showAclCreate: false,
-			mergeOdfId: null,
+			mergeODFId: null,
 			loading: false,
 			isSearching: false,
 			options: [],
@@ -225,7 +225,7 @@ export default {
 		loadAcls() {
 			this.options = []
 			this.loading = true
-			this.model = JSON.parse(JSON.stringify(this.fileModel))
+			this.model = JSON.parse(JSON.stringify(this.fileInfo))
 			client.propFind(this.model).then((data) => {
 				if (data.acls) {
 					this.list = data.acls
@@ -233,7 +233,7 @@ export default {
 				this.inheritedAclsById = data.inheritedAclsById
 				this.aclEnabled = data.aclEnabled
 				this.aclCanManage = data.aclCanManage
-				this.mergeOdfId = data.mergeOdfId
+				this.mergeODFId = data.mergeODFId
 				this.loading = false
 				this.searchMappings('')
 			})
@@ -251,7 +251,7 @@ export default {
 			}
 			searchRequestCancelSource = axios.CancelToken.source()
 			this.isSearching = true
-			axios.get(generateUrl(`apps/mergeodf/folders/${this.mergeOdfId}/search`) + '?format=json&search=' + query, {
+			axios.get(generateUrl(`apps/mergeodf/folders/${this.mergeODFId}/search`) + '?format=json&search=' + query, {
 				cancelToken: searchRequestCancelSource.token,
 			}).then((result) => {
 				this.isSearching = false

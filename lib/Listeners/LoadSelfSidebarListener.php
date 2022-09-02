@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\MergeODF\Listener;
+namespace OCA\MergeODF\Listeners;
 
 use OCA\MergeODF\Event\LoadSelfSidebar;
 use OCP\EventDispatcher\Event;
@@ -37,7 +37,7 @@ class LoadSelfSidebarListener implements IEventListener {
 			return;
 		}
 
-		Util::addScript('mergeodf', 'mergeodftabview');
+		Util::addScript('mergeodf', 'mergeodf-mergeodftabview');
 	}
 
 }

@@ -23,7 +23,7 @@
 import ACL_PROPERTIES from './model/Properties'
 import Rule from './model/Rule'
 
-_.extend(OC.Files.Client, ACL_PROPERTIES)
+let client
 
 const XML_CHAR_MAP = {
 	'<': '&lt;',
@@ -137,14 +137,16 @@ const parseAclList = (acls) => {
 	return list
 }
 
-var client = OCA.Files.App.fileList.filesClient;
-
+/** @type OC.Plugin */
+const FilesPlugin = {
+	attach(fileList) {
+		client = fileList.filesClient
 		client.addFileInfoParser((response) => {
 			const data = {}
 			const props = response.propStat[0].properties
-			const mergeOdfId = props[ACL_PROPERTIES.GROUP_FOLDER_ID]
-			if (typeof mergeOdfId !== 'undefined') {
-				data.mergeOdfId = mergeOdfId
+			const mergeODFId = props[ACL_PROPERTIES.GROUP_FOLDER_ID]
+			if (typeof mergeODFId !== 'undefined') {
+				data.mergeODFId = mergeODFId
 			}
 			const aclEnabled = props[ACL_PROPERTIES.PROPERTY_ACL_ENABLED]
 			if (typeof aclEnabled !== 'undefined') {
@@ -159,22 +161,28 @@ var client = OCA.Files.App.fileList.filesClient;
 			const acls = props[ACL_PROPERTIES.PROPERTY_ACL_LIST] || []
 			const inheritedAcls = props[ACL_PROPERTIES.PROPERTY_INHERITED_ACL_LIST] || []
 
-			if (!_.isUndefined(acls)) {
-				data.acl = parseAclList(acls)
-				data.inheritedAcls = parseAclList(inheritedAcls)
+			data.acl = parseAclList(acls)
+			data.inheritedAcls = parseAclList(inheritedAcls)
 
-				data.acl.map((acl) => {
-					const inheritedAcl = data.inheritedAcls.find((inheritedAclRule) => inheritedAclRule.mappingType === acl.mappingType && inheritedAclRule.mappingId === acl.mappingId)
-					if (inheritedAcl) {
-						acl.permissions = (acl.permissions & acl.mask) | (inheritedAcl.permissions & ~acl.mask)
-					}
-					return acl
-				})
-			}
-		return data
-	})
+			data.acl.map((acl) => {
+				const inheritedAcl = data.inheritedAcls.find((inheritedAclRule) => inheritedAclRule.mappingType === acl.mappingType && inheritedAclRule.mappingId === acl.mappingId)
+				if (inheritedAcl) {
+					acl.permissions = (acl.permissions & acl.mask) | (inheritedAcl.permissions & ~acl.mask)
+				}
+				return acl
+			})
+			return data
+		})
 
-patchClientForNestedPropPatch(client)
+		patchClientForNestedPropPatch(client)
+	},
+};
+
+(function(OC) {
+	Object.assign(OC.Files.Client, ACL_PROPERTIES)
+})(window.OC)
+
+OC.Plugins.register('OCA.Files.FileList', FilesPlugin)
 
 class AclDavService {
 
@@ -217,7 +225,7 @@ class AclDavService {
 					inheritedAclsById,
 					aclEnabled: fileInfo.aclEnabled,
 					aclCanManage: fileInfo.aclCanManage,
-					mergeOdfId: fileInfo.mergeOdfId,
+					mergeODFId: fileInfo.mergeODFId,
 				}
 			}
 			return null
@@ -230,8 +238,8 @@ class AclDavService {
 			aclList.push({ type: ACL_PROPERTIES.PROPERTY_ACL_ENTRY, data: acls[i].getProperties() })
 		}
 		const props = {}
-		props[OC.Files.Client.PROPERTY_ACL_LIST] = aclList
-		return client._client.propPatch(client._client.baseUrl + model.path + '/' + model.name, props)
+		props[ACL_PROPERTIES.PROPERTY_ACL_LIST] = aclList
+		return client._client.propPatch(client._client.baseUrl + model.path.replace('#', '%23') + '/' + encodeURIComponent(model.name), props)
 	}
 
 }

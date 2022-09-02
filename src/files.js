@@ -20,23 +20,12 @@
  *
  */
 import { generateUrl, imagePath } from '@nextcloud/router'
+import './client'
 
-// Rewrite FileList's _isHiddenFile to hide the folder mount on mergeodf  to render in apps/files
-OC.Plugins.register('OCA.Files.FileList', {
-	//target is FileList instance
-	attach: (target) => {
-		console.log(target);
-		target._isHiddenFile = function(file) {
-			//Using  mountType to Hide
-			if (file.mountType === "mergeodf" && file.type==="dir"){
-				return true;
-			}
-
-			// Original Hidden logic
-			return file.name && file.name.charAt(0) === '.';
-		}
-	}
-});
+// eslint-disable-next-line
+__webpack_nonce__ = btoa(OC.requestToken)
+// eslint-disable-next-line
+__webpack_public_path__ = OC.linkTo('mergeodf', 'js/')
 
 window.addEventListener('DOMContentLoaded', () => {
 	if (OCA.Theming) {

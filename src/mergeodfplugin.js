@@ -13,7 +13,7 @@
 	 * Registers the favorites file list from the files app sidebar.
 	 *
 	 * @namespace OCA.Files.MergeODFPlugin
-	*/
+	 */
 	OCA.Files.MergeODFPlugin = {
 		name: 'MergeODF',
 
@@ -22,36 +22,36 @@
 		 */
 		mergeodfFileList: null,
 
-		attach: function () {
-			var self = this;
-			$('#app-content-mergeodflist').on('show.plugin-mergeodf', function (e) {
-				self.showFileList($(e.target));
-			});
-			$('#app-content-mergeodflist').on('hide.plugin-mergeodf', function () {
-				self.hideFileList();
-			});
+		attach() {
+			const self = this
+			$('#app-content-mergeodflist').on('show.plugin-mergeodf', function(e) {
+				self.showFileList($(e.target))
+			})
+			$('#app-content-mergeodflist').on('hide.plugin-mergeodf', function() {
+				self.hideFileList()
+			})
 		},
 
-		detach: function () {
+		detach() {
 			if (this.mergeodfFileList) {
-				this.mergeodfFileList.destroy();
-				OCA.Files.fileActions.off('setDefault.plugin-mergeodf', this._onActionsUpdated);
-				OCA.Files.fileActions.off('registerAction.plugin-mergeodf', this._onActionsUpdated);
-				$('#app-content-mergeodflist').off('.plugin-mergeodf');
-				this.mergeodfFileList = null;
+				this.mergeodfFileList.destroy()
+				OCA.Files.fileActions.off('setDefault.plugin-mergeodf', this._onActionsUpdated)
+				OCA.Files.fileActions.off('registerAction.plugin-mergeodf', this._onActionsUpdated)
+				$('#app-content-mergeodflist').off('.plugin-mergeodf')
+				this.mergeodfFileList = null
 			}
 		},
 
-		showFileList: function ($el) {
+		showFileList($el) {
 			if (!this.mergeodfFileList) {
-				this.mergeodfFileList = this._createMergeODFFileList($el);
+				this.mergeodfFileList = this._createMergeODFFileList($el)
 			}
-			return this.mergeodfFileList;
+			return this.mergeodfFileList
 		},
 
-		hideFileList: function () {
+		hideFileList() {
 			if (this.mergeodfFileList) {
-				this.mergeodfFileList.$fileList.empty();
+				this.mergeodfFileList.$fileList.empty()
 			}
 		},
 
@@ -61,60 +61,58 @@
 		 * @param $el container for the file list
 		 * @return {OCA.Files.MergeODFFileList} file list
 		 */
-		_createMergeODFFileList: function ($el) {
-			var fileActions = this._createFileActions();
+		_createMergeODFFileList($el) {
+			const fileActions = this._createFileActions()
 			// register favorite list for sidebar section
 			return new OCA.Files.MergeODFFileList(
 				$el, {
-				fileActions: fileActions,
-				// The file list is created when a "show" event is handled,
-				// so it should be marked as "shown" like it would have been
-				// done if handling the event with the file list already
-				// created.
-				shown: true
-			}
-			);
+					fileActions,
+					// The file list is created when a "show" event is handled,
+					// so it should be marked as "shown" like it would have been
+					// done if handling the event with the file list already
+					// created.
+					shown: true,
+				}
+			)
 		},
 
-		_createFileActions: function () {
+		_createFileActions() {
 			// inherit file actions from the files app
-			var fileActions = new OCA.Files.FileActions();
+			const fileActions = new OCA.Files.FileActions()
 			// note: not merging the legacy actions because legacy apps are not
 			// compatible with the sharing overview and need to be adapted first
-			fileActions.registerDefaultActions();
-			fileActions.merge(OCA.Files.fileActions);
+			fileActions.registerDefaultActions()
+			fileActions.merge(OCA.Files.fileActions)
 
 			if (!this._globalActionsInitialized) {
 				// in case actions are registered later
-				this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
-				OCA.Files.fileActions.on('setDefault.plugin-mergeodf', this._onActionsUpdated);
-				OCA.Files.fileActions.on('registerAction.plugin-mergeodf', this._onActionsUpdated);
-				this._globalActionsInitialized = true;
+				this._onActionsUpdated = _.bind(this._onActionsUpdated, this)
+				OCA.Files.fileActions.on('setDefault.plugin-mergeodf', this._onActionsUpdated)
+				OCA.Files.fileActions.on('registerAction.plugin-mergeodf', this._onActionsUpdated)
+				this._globalActionsInitialized = true
 			}
 			// when the user clicks on a folder, redirect to the corresponding
 			// folder in the files app instead of opening it directly
-			fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
-				OCA.Files.App.setActiveView('files', { silent: true });
-				OCA.Files.App.fileList.changeDirectory(OC.joinPaths(context.$file.attr('data-path'), filename), true, true);
-			});
-			fileActions.setDefault('dir', 'Open');
-			return fileActions;
+			fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename, context) {
+				OCA.Files.App.setActiveView('files', { silent: true })
+				OCA.Files.App.fileList.changeDirectory(OC.joinPaths(context.$file.attr('data-path'), filename), true, true)
+			})
+			fileActions.setDefault('dir', 'Open')
+			return fileActions
 		},
 
-		_onActionsUpdated: function (ev) {
+		_onActionsUpdated(ev) {
 			if (ev.action) {
-				this.mergeodfFileList.fileActions.registerAction(ev.action);
+				this.mergeodfFileList.fileActions.registerAction(ev.action)
 			} else if (ev.defaultAction) {
 				this.mergeodfFileList.fileActions.setDefault(
 					ev.defaultAction.mime,
 					ev.defaultAction.name
-				);
+				)
 			}
-		}
-	};
+		},
+	}
 
+})(OCA)
 
-})(OCA);
-
-OC.Plugins.register('OCA.Files.App', OCA.Files.MergeODFPlugin);
-
+OC.Plugins.register('OCA.Files.App', OCA.Files.MergeODFPlugin)
