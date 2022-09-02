@@ -52,10 +52,15 @@ appstore: clean build/main.js
 	--exclude=/.scrutinizer.yml \
 	--exclude=/.travis.yml \
 	--exclude=/.tx \
+	--exclude=/.nextcloudignore \
+	--exclude=/krankerl.toml \
+	--exclude=/stylelint.config.js \
+	--exclude=/.eslintrc.js \
+	--exclude=/.php_cs-fixer.dist.php \
 	--exclude=/CONTRIBUTING.md \
 	--exclude=/Makefile \
 	--exclude=/README.md \
-	--exclude=/build/sign \
+	--exclude=/build/ \
 	--exclude=/composer.json \
 	--exclude=/composer.lock \
 	--exclude=/docs \
