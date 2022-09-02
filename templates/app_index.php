@@ -4,10 +4,10 @@
 <?php $_['appNavigation']->printPage(); ?>
 <div id="app-content">
 
-	<?php if (!$_['isIE']) { ?>
+	<?php // if (!$_['isIE']) { ?>
 		<input type="checkbox" class="hidden-visually" id="showgridview" <?php if ($_['showgridview']) { ?>checked="checked" <?php } ?> />
 		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>" title="<?php p($l->t('Toggle grid view')) ?>"></label>
-	<?php } ?>
+	<?php // } ?>
 
 	<?php foreach ($_['appContents'] as $content) { ?>
 		<div id="app-content-<?php p($content['id']) ?>" class="hidden viewcontainer">
