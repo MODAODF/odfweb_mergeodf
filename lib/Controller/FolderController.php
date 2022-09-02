@@ -129,8 +129,9 @@ class FolderController extends OCSController {
 		return new DataResponse(['success' => true]);
 	}
 
- 	/**
- 	 * @param int $id
+	/**
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
+	 * @param int $id
 	 * @param string $user
 	 * @return DataResponse
 	 */
@@ -140,6 +141,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 * @param int $id
 	 * @param string $user
 	 * @return DataResponse
@@ -158,6 +160,7 @@ class FolderController extends OCSController {
 	}
 
 	/**
+	 * @AuthorizedAdminSetting(settings=OCA\MergeODF\Settings\Admin)
 	 * @param int $id
 	 * @param string $group
 	 * @param string $permissions
@@ -256,7 +259,7 @@ class FolderController extends OCSController {
 	public function setAPIServer($id, $apiserver) {
 		$this->manager->setAPIServer($id, $apiserver);
 		return new DataResponse(true);
- 	}
+	}
 
 	/**
 	 * @param \OCP\Files\Node[] $nodes
@@ -339,8 +342,10 @@ class FolderController extends OCSController {
 		}, $nodes));
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function getFolderList()	{
-		$x = 1;
 		$mounts  = $this->rootFolder->getMountsIn("");
 		$mounts = array_filter($mounts, function($mount){
 			if($mount->getMountType() == "mergeodf")
@@ -359,6 +364,9 @@ class FolderController extends OCSController {
 		return new JSONResponse(['files' => $files]);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function getFolderContent($folderId)
 	{
 		$folder = $this->mountProvider->getFolder($folderId, false);
@@ -367,6 +375,9 @@ class FolderController extends OCSController {
 		return new JSONResponse(['files' => $files]);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function getFolderInfo($folderId)
 	{
 		$folder = $this->mountProvider->getFolder($folderId, false);
@@ -375,6 +386,9 @@ class FolderController extends OCSController {
 		return new JSONResponse(['files' => $files]);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function syncFolder($id)
 	{
 		$api_server = $this->manager->getAPIServer($id);
@@ -529,6 +543,9 @@ class FolderController extends OCSController {
 		$manager->notify($notification);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 */
 	public function getAPIInfo(string $folderId ,string $endpt, string $type)
 	{
 		$api_server = $this->manager->getAPIServer($folderId);
