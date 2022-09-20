@@ -56,6 +56,7 @@ class FolderController extends OCSController {
 		$this->mountProvider = $mountProvider;
 		$this->rootFolder = $rootFolder;
 		$this->user = $userSession->getUser();
+		$this->userId = $this->user->getUid();
 		$this->config = $config;
 
 		$this->registerResponder('xml', function ($data): V1Response {
@@ -414,13 +415,15 @@ class FolderController extends OCSController {
 			if ($file->getType() == "dir") {
 				continue;
 			}
-			foreach ($serverList->$mount_point as $data) {
-				if ($data->endpt == md5($file->getInternalPath())) {
-					$exist = true;
-					if ($file->getMTime() > intval(strtotime($data->uptime))) {
-						$update = true;
+			if ($serverList && isset($serverList->$mount_point)) {
+				foreach ($serverList->$mount_point as $data) {
+					if ($data->endpt == md5($file->getInternalPath())) {
+						$exist = true;
+						if ($file->getMTime() > intval(strtotime($data->uptime))) {
+							$update = true;
+						}
+						break;
 					}
-					break;
 				}
 			}
 			if ($exist == false) {
