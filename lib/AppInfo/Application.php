@@ -202,15 +202,6 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(LoadSelfSidebar::class, LoadSelfSidebarListener::class);
 
 		$context->registerServiceAlias(IUserMappingManager::class, UserMappingManager::class);
-
-		$dispatcher = $this->getContainer()->query(IEventDispatcher::class);
-		$dispatcher->addListener('OCA\Files::loadAdditionalScripts', function() {
-			\OCP\Util::addScript('mergeodf', 'mergeodf-files');
-		});
-		$dispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () {
-			\OCP\Util::addScript('mergeodf', 'mergeodf-files');
-		});
-
 	}
 
 	public function boot(IBootContext $context): void {
