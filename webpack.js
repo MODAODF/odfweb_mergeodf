@@ -11,7 +11,7 @@ webpackConfig.entry = {
 	files: [
 		'./src/files.js',
 		'./src/mergeodfplugin.js',
-		'./src/mergeodffilelist.js',
+		// './src/mergeodffilelist.js',
 	],
 	mergeodftabview: [
 		'./src/mergeodftabview.js'

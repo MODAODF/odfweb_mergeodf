@@ -116,3 +116,20 @@
 })(OCA)
 
 OC.Plugins.register('OCA.Files.App', OCA.Files.MergeODFPlugin)
+
+
+// Rewrite FileList's _isHiddenFile to hide the folder mount on mergeodf to render in apps/files
+OC.Plugins.register('OCA.Files.FileList', {
+	// target is FileList instance
+	attach: (target) => {
+		target._isHiddenFile = function(file) {
+			// Using  mountType to Hide
+			if (file.mountType === "mergeodf" && file.type === "dir") {
+				return true;
+			}
+
+			// Original Hidden logic
+			return file.name && file.name.charAt(0) === '.';
+		}
+	}
+});
