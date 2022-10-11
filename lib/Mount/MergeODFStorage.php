@@ -71,6 +71,7 @@ class MergeODFStorage extends Quota {
 	}
 
 	public function getScanner($path = '', $storage = null) {
+		/** @var \OC\Files\Storage\Storage $storage */
 		if (!$storage) {
 			$storage = $this;
 		}
