@@ -232,5 +232,8 @@
     "%1$s%% of %2$s used": "在%2$s使用了%1$s%%",
     "Denied (Inherited permission)" : "拒絕（繼承權限）",
     "Allowed (Inherited permission)" : "允許（繼承權限）",
+    "Group folder admin delegation" : "群組資料夾委派管理員",
+    "They will have access to all Groupfolders." : "他們可以存取所有的群組資料夾。",
+    "They will only have access to Groupfolders for which they have advanced permissions." : "他們僅能存取他們擁有進階權限的群組資料夾。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
