@@ -225,6 +225,7 @@ OC.L10N.register(
         "Allowed (Inherited permission)" : "允許（繼承權限）",
         "Group folder admin delegation" : "群組資料夾委派管理員",
         "They will have access to all Groupfolders." : "他們可以存取所有的群組資料夾。",
-        "They will only have access to Groupfolders for which they have advanced permissions." : "他們僅能存取他們擁有進階權限的群組資料夾。"    
+        "They will only have access to Groupfolders for which they have advanced permissions." : "他們僅能存取他們擁有進階權限的群組資料夾。",
+        "They will only have access to group folders for which they have advanced permissions." : "他們僅能存取他們擁有進階權限的群組資料夾。"
 },
 "nplurals=1; plural=0;");
