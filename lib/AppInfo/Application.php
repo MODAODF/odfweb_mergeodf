@@ -40,6 +40,7 @@ use OCA\MergeODF\Folder\FolderManager;
 use OCA\MergeODF\Helper\LazyFolder;
 use OCA\MergeODF\Listeners\LoadAdditionalScriptsListener;
 use OCA\MergeODF\Listeners\LoadSelfSidebarListener;
+use OCA\MergeODF\Listeners\BeforeNodeChangeListener;
 use OCA\MergeODF\Event\LoadSelfSidebar;
 use OCA\MergeODF\Mount\MountProvider;
 use OCA\MergeODF\Trash\TrashBackend;
@@ -53,9 +54,14 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+// use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+// use OCP\Files\Events\Node\BeforeNodeReadEvent;
+// use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -202,6 +208,15 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(LoadSelfSidebar::class, LoadSelfSidebarListener::class);
 
 		$context->registerServiceAlias(IUserMappingManager::class, UserMappingManager::class);
+
+		/** BeforeNode Events **/
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, BeforeNodeChangeListener::class);
+		$context->registerEventListener(BeforeNodeCreatedEvent::class, BeforeNodeChangeListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, BeforeNodeChangeListener::class);
+		$context->registerEventListener(BeforeNodeWrittenEvent::class, BeforeNodeChangeListener::class);
+		// $context->registerEventListener(BeforeNodeDeletedEvent::class, BeforeNodeChangeListener::class);
+		// $context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeChangeListener::class);
+		// $context->registerEventListener(BeforeNodeTouchedEvent::class, BeforeNodeChangeListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -216,57 +231,6 @@ class Application extends App implements IBootstrap {
 			/** @var IGroupManager|Manager $groupManager */
 			/** 註冊檔案 upload 同步 */
 			$rootfolder = $this->getContainer()->getServer()->getRootFolder();
-
-			/** 禁止透過創造產生子資料夾 */
-			$rootfolder->listen('\OC\Files', 'preCreate', function ($k) {
-				$method = \OC::$server->getRequest()->getMethod();
-				$mount_type = $k->getParent()->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "MKCOL" && $mount_type == "mergeodf") {
-					throw new \OC\ServerNotAvailableException;
-				}
-
-				$ext = strtolower(pathinfo($k->getPath(), PATHINFO_EXTENSION));
-				if ($mount_type == "mergeodf" && ($ext != "ott" && $ext != "ots" && $ext != "otp")) {
-					throw new \OC\ServerNotAvailableException;
-				}
-			});
-
-			/** 禁止透過複製產生子資料夾 */
-			$rootfolder->listen('\OC\Files', 'preCopy', function ($k) {
-				$method = \OC::$server->getRequest()->getMethod();
-				$mount_type = $k->getParent()->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "COPY" && $mount_type == "mergeodf") {
-					// Create a sabre server instance to get the information for the request
-					$tmpuri = "/remote.php/dav";
-					$request = \OC::$server->getRequest();
-					$tmps = new \OCA\DAV\Server($request, $tmpuri);
-					$path = $tmps->server->httpRequest->getPath();
-					$path = str_replace("remote.php/dav", "", $path);
-					$node = $tmps->server->tree->getNodeForPath($path);
-					if ($node->getFileInfo()->getType() == "dir") {
-						throw new \OC\ServerNotAvailableException;
-					}
-				}
-			});
-
-			/** 禁止透過移動產生子資料夾 */
-			$rootfolder->listen('\OC\Files', 'preRename', function ($k) {
-				$method = \OC::$server->getRequest()->getMethod();
-				$tmpuri = "/remote.php/dav";
-				$request = \OC::$server->getRequest();
-				$tmps = new \OCA\DAV\Server($request, $tmpuri);
-				$dest = $tmps->server->getCopyAndMoveInfo($tmps->server->httpRequest);
-				$destPath = $dest['destination'];
-				$destDir = dirname($destPath);
-				$mount_type = $tmps->server->tree->getNodeForPath($destDir)->getFileInfo()->getMountPoint()->getMountType();
-				if ($method == "MOVE" && $mount_type == "mergeodf") {
-					// Create a sabre server instance to get the information for the request
-					if ($k->getFileInfo()->getType() == "dir") {
-						throw new \OC\ServerNotAvailableException;
-					}
-				}
-			});
-
 
 			/** 註冊檔案 upload 同步 */
 			$rootfolder->listen('\OC\Files', 'postCreate', function ($k) {

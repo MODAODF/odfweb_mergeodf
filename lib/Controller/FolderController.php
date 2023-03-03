@@ -371,6 +371,7 @@ class FolderController extends OCSController {
 	public function getFolderContent($folderId)
 	{
 		$folder = $this->mountProvider->getFolder($folderId, false);
+		if ($folder === null) return new JSONResponse();
 		$dirList = $folder->getDirectoryListing();
 		$files = $this->formatFileNodes($dirList);
 		return new JSONResponse(['files' => $files]);
@@ -382,6 +383,7 @@ class FolderController extends OCSController {
 	public function getFolderInfo($folderId)
 	{
 		$folder = $this->mountProvider->getFolder($folderId, false);
+		if (!$folder) return new JSONResponse();
 		$node = $this->rootFolder->get($folder->getPath());
 		$files = $this->formatNodes([$node]);
 		return new JSONResponse(['files' => $files]);
