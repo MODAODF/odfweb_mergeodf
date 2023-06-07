@@ -1,7 +1,7 @@
 OC.L10N.register(
     "mergeodf",
     {
-        "Are you sure you want to delete \"{folderName}\" and all files inside? This operation can not be undone": "您確定要刪除 \"{folderName}\" 和裡面所有的檔案嗎？這個操作無法復原",
+        "Are you sure you want to delete \"{folderName}\" and all files inside? This operation cannot be undone": "您確定要刪除 \"{folderName}\" 和裡面所有的檔案嗎？這個操作無法復原",
         "Are you sure you want to sync \"{folderName}\" and all files inside?": "您確定要同步 \"{folderName}\" 和裡面所有的檔案嗎？",
         "Delete \"{folderName}\"?": "刪除 \"{folderName}\" ？",
         "Sync \"{folderName}\"?": "同步 \"{folderName}\" ？",
